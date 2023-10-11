@@ -1,0 +1,47 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+
+  .des {
+    font-size: 14px;
+    color: #fff;
+    padding-bottom: 5px;
+  }
+
+  > input {
+    background: #121212;
+    border: 1px solid rgb(54, 54, 54);
+    border-radius: 5px;
+    height: 35px;
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .input-error {
+    border: 1px solid red;
+    &:focus {
+      outline: none;
+      border: 1px solid red;
+    }
+  }
+
+  .error {
+    display: flex;
+    margin-top: 5px;
+
+    > span {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      > svg {
+        fill: red;
+        width: 20px;
+        height: 20px;
+      }
+    }
+    > p {
+      font-size: 14px;
+    }
+  }
+}

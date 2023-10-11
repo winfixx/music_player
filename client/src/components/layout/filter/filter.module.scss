@@ -1,0 +1,18 @@
+.filter {
+  display: flex;
+  margin-top: 18px;
+  margin-bottom: 10px;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  .default {
+    transition: all 0.2s;
+  }
+
+  .div-active {
+    transition: all 0.2s;
+  }
+}

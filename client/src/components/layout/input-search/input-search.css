@@ -1,0 +1,17 @@
+.search-enter {
+  width: 0;
+}
+.search-enter-active {
+  width: 175px;
+  transition: opacity 150ms, width 150ms;
+}
+.search-enter-done {
+  width: 175px;
+}
+.search-exit {
+  width: 175px;
+}
+.search-exit-active {
+  width: 0;
+  transition: opacity 150ms, width 150ms;
+}

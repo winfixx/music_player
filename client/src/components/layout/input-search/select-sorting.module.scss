@@ -1,0 +1,32 @@
+.select {
+  user-select: none;
+  overflow: hidden;
+
+  > span {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 7px;
+    padding-right: 20px;
+    overflow: hidden;
+
+    > button {
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    svg {
+      position: absolute;
+      z-index: 1;
+      right: 0px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+}

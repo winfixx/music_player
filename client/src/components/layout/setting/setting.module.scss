@@ -1,0 +1,53 @@
+.settings {
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .media {
+      display: flex;
+      align-items: center;
+
+      transition: color 0.3s;
+      &:hover {
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      > span {
+        display: flex;
+        align-items: center;
+        padding-right: 10px;
+      }
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+
+      > span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        border-radius: 50%;
+
+        > svg {
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
+        }
+
+        transition: background-color .3s;
+        &:hover {
+          background-color: #1b1b1b;
+          cursor: pointer;
+        }
+
+        &:first-child {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
