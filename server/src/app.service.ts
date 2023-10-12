@@ -7,7 +7,5 @@ export class AppService {
         return [{ id: 1, name: 'Name' }]
     }
 
-    getUsers() {
-        return
-    }
+    
 }
