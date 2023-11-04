@@ -18,7 +18,6 @@ const artists: Array<string> = [
     'by jambo',
 ]
 
-
 const Filter: React.FC<FilterProps> = React.memo(() => {
     const [type, setType] = React.useState('')
     const [artistName, setArtistName] = React.useState('')
