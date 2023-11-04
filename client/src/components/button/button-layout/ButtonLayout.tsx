@@ -1,20 +1,20 @@
 import * as React from 'react'
 import styles from './ButtonLayout.module.scss'
 
-interface IButtonProps {
+interface ButtonProps {
     children: React.ReactNode
     onClick?: () => void
     clear?: boolean,
     activePlaylist?: boolean
-    activeName?: boolean
+    activeTitle?: boolean
 }
 
-const Button: React.FC<IButtonProps> = React.memo(({
+const Button: React.FC<ButtonProps> = React.memo(({
     children,
     onClick,
     clear,
     activePlaylist,
-    activeName
+    activeTitle
 }) => {
     if (activePlaylist) {
         return <span  className={`${styles.span} ${styles.activePlaylist}`}>
@@ -24,8 +24,8 @@ const Button: React.FC<IButtonProps> = React.memo(({
         </span>
     }
 
-    if (activeName) {
-        return <span  className={`${styles.span} ${styles.activeName}`}>
+    if (activeTitle) {
+        return <span  className={`${styles.span} ${styles.activeTitle}`}>
             <button onClick={onClick}>
                 {children}
             </button>

@@ -2,7 +2,7 @@ $radius: 10px;
 
 .container {
   display: grid;
-  grid-template-columns: minmax(280px, 425px) 2fr;
+  grid-template-columns: minmax(280px, 25%) 2fr;
   grid-template-rows: 110px 3fr 100px;
   grid-gap: 7px;
   height: 100%;
@@ -11,8 +11,6 @@ $radius: 10px;
   // border-radius: 15%;
 
   .layout {
-    min-width: 280px;
-    max-width: 425px;
     height: 100%;
 
     .library {
@@ -28,8 +26,7 @@ $radius: 10px;
     }
   }
 
-  .last {
-    height: 100px;
+  .under {
     background-color: black;
     grid-column-start: 1;
     grid-column-end: 3;

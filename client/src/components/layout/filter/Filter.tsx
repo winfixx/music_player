@@ -1,9 +1,9 @@
 import * as React from 'react'
 import ButtonLayout from '../../button/button-layout/ButtonLayout'
-import styles from './filter.module.scss'
+import styles from './Filter.module.scss'
 import { MdClear } from 'react-icons/md'
 
-interface IFilterProps {
+interface FilterProps {
 }
 
 const filter: Array<string> = [
@@ -13,30 +13,33 @@ const filter: Array<string> = [
 
 const artists: Array<string> = [
     'by Spotify',
-    'by Gay',
-    'dfv'
+    'by Cocojambo',
+    'by Cocoj',
+    'by jambo',
 ]
 
 
-const Filter: React.FC<IFilterProps> = React.memo(() => {
+const Filter: React.FC<FilterProps> = React.memo(() => {
     const [type, setType] = React.useState('')
-    const [name, setName] = React.useState('')
+    const [artistName, setArtistName] = React.useState('')
     const [artist, setArtist] = React.useState(artists)
 
-    const select = React.useCallback((artist: string) => {
-        if (name) {
-            setName('')
-            return setArtist(artists)
+    const onSelect = React.useCallback((artistSelected: string) => {
+        if (artistName) {
+            setArtistName('')
+            setArtist(artists)
+            return
         }
-        setArtist((artists.filter(item => item === artist)))
-        // setArtist()
-        return setName(artist)
-    }, [artist, name])
+
+        setArtist((artists.filter(artistName => artistName === artistSelected)))
+        setArtistName(artistSelected)
+        return
+    }, [artist, artistName])
 
     return (
-        <div className={styles.filter}>
-            {type ?
-                <div className={styles['div-active']}>
+        <div draggable={false} className={styles.filter}>
+            {type
+                ? <div draggable={false} className={styles.list}>
                     <ButtonLayout onClick={() => setType('')}
                         clear={true}
                     >
@@ -47,16 +50,16 @@ const Filter: React.FC<IFilterProps> = React.memo(() => {
                     >
                         {type}
                     </ButtonLayout>
-                    {artist.map(item =>
-                        <ButtonLayout key={item}
-                            onClick={() => select(item)}
-                            activeName={artist.length === 1 ? true : false}
+                    {artist.map(artistName =>
+                        <ButtonLayout key={artistName}
+                            onClick={() => onSelect(artistName)}
+                            activeTitle={artist.length === 1 ? true : false}
                         >
-                            {item}
+                            {artistName}
                         </ButtonLayout>
                     )}
-                </div> :
-                <div className={styles.default}>
+                </div>
+                : <div className={styles.list}>
                     {filter.map(item =>
                         <ButtonLayout key={item}
                             onClick={() => setType(item)}

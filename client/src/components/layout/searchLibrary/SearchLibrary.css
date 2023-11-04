@@ -3,7 +3,7 @@
 }
 .search-enter-active {
   width: 175px;
-  transition: opacity 150ms, width 150ms;
+  transition: opacity 200ms, width 200ms;
 }
 .search-enter-done {
   width: 175px;
@@ -13,5 +13,5 @@
 }
 .search-exit-active {
   width: 0;
-  transition: opacity 150ms, width 150ms;
+  transition: opacity 200ms, width 200ms;
 }

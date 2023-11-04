@@ -1,8 +1,8 @@
 import * as React from 'react'
-import styles from './select-sorting.module.scss'
+import styles from './SelectSorting.module.scss'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
-interface ISelectSortingtProps {
+interface SelectSortingProps {
 }
 
 const options = [
@@ -12,7 +12,7 @@ const options = [
   { value: '4', label: 'По автору' },
 ]
 
-const SelectSorting: React.FC<ISelectSortingtProps> = (props) => {
+const SelectSorting: React.FC<SelectSortingProps> = (props) => {
   const [select, setSelect] = React.useState(options[0])
 
   return (

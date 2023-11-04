@@ -3,14 +3,14 @@ import MusicPlayer from '../music-player/MusicPlayer'
 import styles from './Layout.module.scss'
 import Filter from './filter/Filter'
 import Navigation from './navigation/Navigation'
-import InputSearch from './input-search/InputSearch'
+import SearchLibrary from './searchLibrary/SearchLibrary'
 import Setting from './setting/Setting'
 
-interface ILayoutProps {
+interface LayoutProps {
   children: React.ReactNode
 }
 
-const Layout: React.FC<ILayoutProps> = React.memo(({
+const Layout: React.FC<LayoutProps> = React.memo(({
   children
 }) => {
   return (
@@ -19,26 +19,26 @@ const Layout: React.FC<ILayoutProps> = React.memo(({
 
       {children}
 
-      <div className={styles.layout}>
+      <section className={styles.layout}>
         <div className={styles.library}>
 
-          <div>
-            <Setting />
-            <Filter />
-          </div>
+          <Setting />
+          <Filter />
 
           <div className={styles.content}>
-            <InputSearch />
-            <div className={styles.list}>
+            <SearchLibrary />
 
+            <div className={styles.list}>
+              {/* list playlist, album, folder */}
             </div>
           </div>
 
         </div>
-      </div>
-      <div className={styles.last}>
+      </section>
+
+      <section className={styles.under}>
         <MusicPlayer />
-      </div>
+      </section>
     </div>
   )
 })

@@ -30,8 +30,8 @@ const Home: React.FC = (props) => {
     const { handleScroll, opacity } = useScroll()
 
     return (
-        <div onScroll={e => handleScroll(e)} className={styles.container}>
-            <div >
+        <section onScroll={e => handleScroll(e)} className={styles.container}>
+            <div>
                 <div className={styles.background} />
                 <Navbar opacity={opacity} />
                 <div className={styles.content}>
@@ -40,7 +40,7 @@ const Home: React.FC = (props) => {
                     )}
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 
