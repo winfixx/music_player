@@ -60,26 +60,13 @@
       }
     }
 
-    .search {
-      flex-grow: 1;
-
-      > div {
-        min-width: 170px;
-        max-width: 360px;
-
-        > form {
-          > input {
-          }
-        }
-      }
-    }
-
     .menu {
       display: flex;
       > a {
         display: flex;
         justify-content: center;
         align-items: center;
+
         background: black;
         border: none;
         border-radius: 50%;

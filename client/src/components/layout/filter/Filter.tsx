@@ -36,9 +36,9 @@ const Filter: React.FC<FilterProps> = React.memo(() => {
     }, [artist, artistName])
 
     return (
-        <div draggable={false} className={styles.filter}>
+        <div className={styles.filter}>
             {type
-                ? <div draggable={false} className={styles.list}>
+                ? <div className={styles.list}>
                     <ButtonLayout onClick={() => setType('')}
                         clear={true}
                     >

@@ -29,6 +29,7 @@ const InputAuth: React.FC<AuthInputProps> = React.memo(({
                 {...register(title, { required: true })}
                 id={title}
                 {...props}
+                autoComplete='off'
             />
             {errors &&
                 <div className={styles.error}>

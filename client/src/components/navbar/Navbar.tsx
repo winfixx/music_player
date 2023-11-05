@@ -5,6 +5,7 @@ import { BsPerson } from 'react-icons/bs'
 import styles from './Navbar.module.scss'
 import { LOGIN_ROUTE } from '../../constants/constants'
 import { useAppSelector } from '../../hooks/redux'
+import Search from './search/Search'
 
 interface NavbarProps {
     opacity?: number
@@ -14,6 +15,11 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
     const { isAuth } = useAppSelector(state => state.userReducer)
     const location = useLocation()
     const search = location.pathname === '/search'
+    const ref = React.useRef<HTMLInputElement>(null)
+
+    React.useEffect(() => {
+        ref.current?.focus()
+    }, [search])
 
     return (
         <header className={styles.header}>
@@ -27,15 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
                     <button>{<IoIosArrowForward />}</button>
                 </div>
 
-                {search
-                    && <div className={styles.search}>
-                        <div>
-                            <form>
-                                <input type="text" placeholder='Что хочешь послушать?' />
-                            </form>
-                        </div>
-                    </div>
-                }
+                {search && <Search ref={ref} />}
 
                 <div className={styles.menu}>
                     <NavLink to=''>{<IoMdNotificationsOutline />}</NavLink>

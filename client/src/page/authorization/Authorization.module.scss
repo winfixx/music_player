@@ -1,13 +1,16 @@
-.container {
+@mixin default {
   display: flex;
   justify-content: center;
+}
+
+.container {
+  @include default();
   height: 100%;
   padding: 32px;
   background: linear-gradient(#212121, #121212);
 
   > div {
-    display: flex;
-    justify-content: center;
+    @include default();
     height: 100%;
     max-width: 734px;
     width: 100%;
@@ -32,8 +35,7 @@
         border-radius: 0px 10px 10px 0;
       }
       .title {
-        display: flex;
-        justify-content: center;
+        @include default();
         padding-top: 30px;
         > h1 {
           text-align: center;
@@ -53,6 +55,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        flex-grow: 1;
         width: 100%;
 
         .enter {
@@ -68,8 +71,7 @@
           width: 60%;
 
           .go {
-            display: flex;
-            justify-content: center;
+            @include default();
             background: #1ed760;
             border: none;
             border-radius: 30px;

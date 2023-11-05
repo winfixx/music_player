@@ -3,28 +3,28 @@
   width: 100%;
   margin-top: 18px;
   margin-bottom: 10px;
+  padding-bottom: 5px;
 
   user-select: none;
+
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #3b3b3b;
+  }
+  &::-webkit-scrollbar-track {
+    background: #121212;
+    border-radius: 8px;
+  }
 
   > div {
     display: flex;
     align-items: center;
 
     border-radius: 5px;
-    padding-bottom: 5px;
-
-    overflow-x: scroll;
-    &::-webkit-scrollbar {
-      height: 6px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 3px;
-      background: #3b3b3b;
-    }
-    &::-webkit-scrollbar-track {
-      background: #121212;
-      border-radius: 10px;
-    }
   }
 
   .list-enter {

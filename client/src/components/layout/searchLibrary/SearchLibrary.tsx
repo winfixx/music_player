@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group'
 import { RiSearchLine } from 'react-icons/ri'
 import styles from './SearchLibrary.module.scss'
 import './SearchLibrary.css'
-import SelectSorting from './SelectSorting'
+import SelectSorting from './selectSorting/SelectSorting'
 
 interface SearchLibraryProps {
 }
@@ -12,6 +12,7 @@ interface SearchLibraryProps {
 const SearchLibrary: React.FC<SearchLibraryProps> = React.memo((props) => {
   const [searchValue, setSearchValue] = React.useState('')
   const [showSearch, setShowSearch] = React.useState(false)
+  const ref = React.useRef(null)
 
   const open = () => {
     setShowSearch(!showSearch)
@@ -29,9 +30,11 @@ const SearchLibrary: React.FC<SearchLibraryProps> = React.memo((props) => {
         <CSSTransition in={showSearch}
           timeout={120}
           classNames={'search'}
+          nodeRef={ref}
           unmountOnExit
         >
           <input className={styles['input-search']}
+            ref={ref}
             type="text"
             placeholder='Искать в медиатеке'
             value={searchValue}
