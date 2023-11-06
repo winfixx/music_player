@@ -10,7 +10,8 @@ interface AuthInputProps {
     title: keyof User
     placeholder: string
     errorMessage: string
-    type: string
+    type: string,
+    minLength?: number
 }
 
 const InputAuth: React.FC<AuthInputProps> = React.memo(({
@@ -18,6 +19,7 @@ const InputAuth: React.FC<AuthInputProps> = React.memo(({
     register,
     title,
     errorMessage,
+    minLength,
     ...props
 }) => {
 
@@ -26,7 +28,7 @@ const InputAuth: React.FC<AuthInputProps> = React.memo(({
             <span className={styles.des}>{props.placeholder}</span>
             <input
                 className={errors && styles['input-error']}
-                {...register(title, { required: true })}
+                {...register(title, { required: true, minLength})}
                 id={title}
                 {...props}
                 autoComplete='off'

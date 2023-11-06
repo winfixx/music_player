@@ -18,6 +18,7 @@ const Authorization: React.FC = () => {
     } = useForm<User>()
 
     const onSubmit: SubmitHandler<User> = (data) => {
+        console.log(data);
         reset()
     }
 
@@ -35,8 +36,8 @@ const Authorization: React.FC = () => {
                     <hr />
                     <div className={styles.content}>
                         <div className={styles.enter}>
-                            {!login &&
-                                <InputAuth title={'name'}
+                            {!login
+                                && <InputAuth title={'name'}
                                     errorMessage='Введите имя пользователя из аккаунта Spotify.'
                                     errors={errors.name}
                                     placeholder='Имя пользователя'
@@ -49,35 +50,40 @@ const Authorization: React.FC = () => {
                                 errors={errors.email}
                                 placeholder='Email'
                                 register={register}
-                                type='text'
+                                type='email'
                             />
                             <InputAuth title={'password'}
-                                errorMessage='Введите пароль'
+                                errorMessage='Введите пароль. Минимум 5 символов.'
                                 errors={errors.password}
                                 placeholder='Пароль'
                                 register={register}
+                                minLength={5}
                                 type='password'
                             />
                         </div>
                         <div className={styles['div-button']}>
-                            {login ?
-                                <>
+                            {login
+                                ? <>
                                     <button className={styles.go} type='submit'>
                                         <span>Войти</span>
                                     </button>
                                     <button className={styles.recovery}>Забыли пароль?</button>
                                 </>
-                                :
-                                <button className={styles.go} type='submit'><span>Зарегистрироваться</span></button>
+                                : <button className={styles.go} type='submit'>
+                                    <span>Зарегистрироваться</span>
+                                </button>
                             }
                         </div>
                     </div>
                     <hr />
                     <div className={styles.redirect}>
-                        {login ?
-                            <p><span>Нет аккаунта?</span> <NavLink to={REGISTRATION_ROUTE}>Регистрация в Spotify</NavLink></p>
-                            :
-                            <p><span>Есть аккаунт?</span> <NavLink to={LOGIN_ROUTE}>Вход в Spotify</NavLink></p>
+                        {login
+                            ? <p>
+                                <span>Нет аккаунта?</span> <NavLink to={REGISTRATION_ROUTE}>Регистрация в Spotify</NavLink>
+                            </p>
+                            : <p>
+                                <span>Есть аккаунт?</span> <NavLink to={LOGIN_ROUTE}>Вход в Spotify</NavLink>
+                            </p>
                         }
                     </div>
                 </form>

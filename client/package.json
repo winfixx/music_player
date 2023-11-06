@@ -24,7 +24,8 @@
     "react-router-dom": "^6.16.0",
     "react-select": "^5.7.5",
     "react-transition-group": "^4.4.5",
-    "sass": "^1.67.0"
+    "sass": "^1.67.0",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@types/css-modules": "^1.0.3",
