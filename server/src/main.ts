@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core'
 import { v2 as cloudinary } from 'cloudinary'
 import { CorsOptionsDelegate } from '@nestjs/common/interfaces/external/cors-options.interface'
-import { AppModule } from './app.module'
 import { Request } from 'express'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { AppModule } from './app.module'
 
 let allowDomain = 'http://localhost:5173'
 let corsOptionsDelegate: CorsOptionsDelegate<Request> = function (req, callback) {
@@ -21,7 +22,7 @@ async function start() {
     const PORT = process.env.PORT || 4000
 
     try {
-        const app = await NestFactory.create(AppModule)
+        const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
         app.enableCors(corsOptionsDelegate)
 
