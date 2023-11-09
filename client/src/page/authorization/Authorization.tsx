@@ -18,7 +18,7 @@ const Authorization: React.FC = () => {
     } = useForm<User>()
 
     const onSubmit: SubmitHandler<User> = (data) => {
-        console.log(data);
+        console.log(data)
         reset()
     }
 
@@ -36,24 +36,33 @@ const Authorization: React.FC = () => {
                     <hr />
                     <div className={styles.content}>
                         <div className={styles.enter}>
-                            {!login
-                                && <InputAuth title={'name'}
-                                    errorMessage='Введите имя пользователя из аккаунта Spotify.'
-                                    errors={errors.name}
-                                    placeholder='Имя пользователя'
-                                    register={register}
-                                    type='text'
-                                />
-                            }
+                            <InputAuth title={'name'}
+                                errorMessage={login
+                                    ? 'Введите имя пользователя из аккаунта Spotify.'
+                                    : 'Введите имя пользователя'
+                                }
+                                errors={errors.name}
+                                placeholder='Имя пользователя'
+                                register={register}
+                                type='text'
+                            />
                             <InputAuth title={'email'}
-                                errorMessage='Введите адрес электронной почты из аккаунта Spotify.'
+                                errorMessage={
+                                    login
+                                        ? 'Введите адрес электронной почты из аккаунта Spotify.'
+                                        : 'Введите адрес электронной почты'
+                                }
                                 errors={errors.email}
                                 placeholder='Email'
                                 register={register}
                                 type='email'
                             />
                             <InputAuth title={'password'}
-                                errorMessage='Введите пароль. Минимум 5 символов.'
+                                errorMessage={
+                                    login
+                                        ? 'Введите пароль из аккаунта Spotify'
+                                        : 'Введите пароль. Минимум 5 символов.'
+                                }
                                 errors={errors.password}
                                 placeholder='Пароль'
                                 register={register}
