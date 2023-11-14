@@ -3,15 +3,16 @@ import styles from './InputAuth.module.scss'
 import { BiErrorAlt } from 'react-icons/bi'
 import { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { User } from '../../../types/User'
+import { UserForm } from '../../../page/authorization/Authorization'
 
-interface AuthInputProps {
-    register: UseFormRegister<User>
+export interface AuthInputProps {
+    register: UseFormRegister<UserForm> | any
     errors: FieldErrors | undefined | any
-    title: keyof User
+    title: keyof UserForm
     placeholder: string
-    errorMessage: string
-    type: string,
-    minLength?: number
+    errorMessage: string | any
+    type: 'text' | 'email' | 'password'
+    minLength?: number | null
 }
 
 const InputAuth: React.FC<AuthInputProps> = React.memo(({
@@ -22,13 +23,12 @@ const InputAuth: React.FC<AuthInputProps> = React.memo(({
     minLength,
     ...props
 }) => {
-
     return (
         <label className={styles.label} htmlFor={title}>
             <span className={styles.des}>{props.placeholder}</span>
             <input
                 className={errors && styles['input-error']}
-                {...register(title, { required: true, minLength})}
+                {...register(title, { required: true, minLength })}
                 id={title}
                 {...props}
                 autoComplete='off'

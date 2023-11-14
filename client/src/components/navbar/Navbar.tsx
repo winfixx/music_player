@@ -1,21 +1,21 @@
 import * as React from 'react'
 import { IoIosArrowBack, IoIosArrowForward, IoMdNotificationsOutline } from 'react-icons/io'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { BsPerson } from 'react-icons/bs'
 import styles from './Navbar.module.scss'
 import { LOGIN_ROUTE } from '../../constants/constants'
 import { useAppSelector } from '../../hooks/redux'
 import Search from './search/Search'
+import { useLocationPath } from '../../hooks/useLocationPath'
 
 interface NavbarProps {
     opacity?: number
 }
 
 const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
-    const { isAuth } = useAppSelector(state => state.userReducer)
-    const location = useLocation()
-    const search = location.pathname === '/search'
+    const { isAuth, user } = useAppSelector(state => state.userReducer)
     const ref = React.useRef<HTMLInputElement>(null)
+    const search = useLocationPath('/search')
 
     React.useEffect(() => {
         ref.current?.focus()
@@ -37,7 +37,14 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
 
                 <div className={styles.menu}>
                     <NavLink to=''>{<IoMdNotificationsOutline />}</NavLink>
-                    <NavLink to={isAuth ? '' : LOGIN_ROUTE}>{<BsPerson />}</NavLink>
+                    <NavLink className={isAuth ? styles.person : ''}
+                        to={isAuth ? '' : LOGIN_ROUTE}
+                    >
+                        {isAuth
+                            && <span className={styles.name}>{user.name}</span>
+                        }
+                        {user.avatar ? '' : <BsPerson />}
+                    </NavLink>
                 </div>
             </div>
         </header>

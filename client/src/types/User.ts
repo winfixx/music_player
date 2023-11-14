@@ -1,7 +1,13 @@
 export interface User {
-    id: number
-    isAuth?: boolean
-    name: string
-    email: string
-    password: string
+    user: {
+        id: number | null
+        name: string
+        email: string
+        avatar: string
+        isActivated: boolean
+        junior: boolean
+    }
+    token?: {
+        accessToken: string
+    }
 }

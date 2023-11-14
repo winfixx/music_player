@@ -8,7 +8,7 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto'
 import { User } from 'src/user/user.model'
 import { UserService } from 'src/user/user.service'
 import { v4 } from 'uuid'
-import { UserResponseDto } from './dto/userResponse.dto'
+import { CreateUserResponseDto } from './dto/createUserResponse.dto'
 
 @Injectable()
 export class AuthService {
@@ -23,12 +23,11 @@ export class AuthService {
 
     public async registration(
         { email, name, password }: CreateUserDto
-    ): Promise<UserResponseDto> {
+    ): Promise<CreateUserResponseDto> {
         try {
-            const candidate = await this.userService.findUserByEmailAndName({ email, name })
-            if (candidate) throw new HttpException(
-                { message: `Пользователь с таким email (${email}) или именем (${name}) уже зарегистрирован` },
-                HttpStatus.BAD_REQUEST
+            const candidate = await this.userService.findUserByEmailOrName({ email, name })
+            if (candidate) throw new BadRequestException(
+                { message: `Пользователь с таким email (${email}) или именем (${name}) уже зарегистрирован` }
             )
 
             const hashPassword = await this.hashPassword(password, 3)
@@ -40,36 +39,38 @@ export class AuthService {
             await this.mailService.sendMail(email, `${this.activationLink}/${activationLink}`)
                 .catch(error => console.log(error))
 
-            const { accessToken, refreshToken } = await this.tokenService.createTokens({ email, name, password })
+            const { accessToken, refreshToken } = await this.tokenService.createTokens({ email, name })
+            await this.tokenService.saveRefreshToken(user.id, refreshToken)
 
-            return {
-                user,
-                token: {
-                    accessToken,
-                    refreshToken
-                }
-            }
+            return new CreateUserResponseDto(user, { accessToken, refreshToken })
         } catch (error) {
-            throw new HttpException(
-                { message: `Пользователь с таким email (${email}) или именем (${name}) уже зарегистрирован` },
-                HttpStatus.BAD_REQUEST
+            throw new BadRequestException(
+                { message: `Пользователь с таким email (${email}) или именем (${name}) уже зарегистрирован` }
             )
         }
     }
 
     public async login(
         { email, name, password }: CreateUserDto
-    ): Promise<UserResponseDto> {
+    ): Promise<CreateUserResponseDto> {
         const user = await this.validateUser({ email, name, password })
-        const { accessToken, refreshToken } = await this.tokenService.createTokens({ email, name, password })
+        const { accessToken, refreshToken } = await this.tokenService.createTokens({ email, name })
+        await this.tokenService.saveRefreshToken(user.id, refreshToken)
 
-        return {
-            user,
-            token: {
-                accessToken,
-                refreshToken
-            }
-        }
+        return new CreateUserResponseDto(user, { accessToken, refreshToken })
+    }
+
+    public async logout(
+        refresh: string
+    ): Promise<number> {
+        const verify = await this.tokenService.verifyRefreshToken(refresh)
+        if (!verify) throw new BadRequestException({ message: 'Произошла ошибка...' })
+
+
+        const hasToken = await this.tokenService.findRefreshToken(refresh)
+        if (!hasToken) throw new BadRequestException({ message: 'Произошла ошибка...' })
+
+        return await this.tokenService.removeRefreshToken(hasToken.userId)
     }
 
     public async activateLink(
@@ -83,6 +84,29 @@ export class AuthService {
             return user.update({ isActivated: true })
 
         throw new BadRequestException({ message: 'Неккоректная ссылка' })
+    }
+
+    public async refresh(
+        refresh: string
+    ): Promise<CreateUserResponseDto> {
+        try {
+            console.log('refresg', refresh)
+            if (!refresh) throw new UnauthorizedException({ message: 'Пользователь не авторизован' })
+
+            const token = await this.tokenService.verifyRefreshToken(refresh)
+            const tokenFromDb = await this.tokenService.findRefreshToken(refresh)
+            if (!token && !tokenFromDb) {
+                throw new UnauthorizedException({ message: 'Пользователь не авторизован' })
+            }
+
+            const user = await this.userService.findUserByEmailAndName({ email: token.email, name: token.name })
+            const { accessToken, refreshToken } = await this.tokenService.createTokens({ email: user.email, name: user.name })
+            await this.tokenService.saveRefreshToken(user.id, refreshToken)
+
+            return new CreateUserResponseDto(user, { accessToken, refreshToken })
+        } catch (error) {
+            throw new UnauthorizedException({ message: 'Пользователь не авторизован' })
+        }
     }
 
     public async resendLink(
@@ -112,9 +136,9 @@ export class AuthService {
                 return user
             }
 
-            throw new UnauthorizedException({ message: 'Неккоректные email, имя или пароль' })
+            throw new BadRequestException({ message: 'Неккоректные email, имя или пароль' })
         } catch (error) {
-            throw new UnauthorizedException({ message: 'Неккоректные email, имя или пароль' })
+            throw new BadRequestException({ message: 'Неккоректные email, имя или пароль' })
         }
     }
 

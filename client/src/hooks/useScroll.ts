@@ -10,10 +10,10 @@ const useScroll = () => {
         setPosition(e.currentTarget.scrollTop)
 
         if (scrollPosition >= 0 && scrollPosition < 99) {
-            return setOpacity(0)
+            return setOpacity(scrollPosition / 99)
         }
         if (scrollPosition >= 99 && scrollPosition < 149) {
-            return setOpacity(0.5)
+            return setOpacity(scrollPosition / 149)
         }
         if (scrollPosition >= 149) {
             return setOpacity(1)

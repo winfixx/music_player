@@ -13,7 +13,7 @@ export class TokenService {
     ) { }
 
     public async createTokens(
-        payload: CreateUserDto
+        payload: Pick<CreateUserDto, 'name' | 'email'>
     ) {
         const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m', secret: process.env.ACCESS_TOKEN_SECRET })
         const refreshToken = await this.jwtService.signAsync(payload, { expiresIn: '30d', secret: process.env.REFRESH_TOKEN_SECRET })
@@ -26,7 +26,7 @@ export class TokenService {
 
     public async verifyAccessToken(
         accessToken: string
-    ): Promise<CreateUserDto> | null {
+    ): Promise<Pick<CreateUserDto, 'name' | 'email'>> | null {
         const verify = await this.jwtService.verifyAsync<CreateUserDto>(accessToken, { secret: process.env.ACCESS_TOKEN_SECRET })
         if (verify) return verify
 
@@ -35,26 +35,30 @@ export class TokenService {
 
     public async verifyRefreshToken(
         refreshToken: string
-    ): Promise<CreateUserDto> | null {
+    ): Promise<Pick<CreateUserDto, 'name' | 'email'>> | null {
         const verify = await this.jwtService.verifyAsync<CreateUserDto>(refreshToken, { secret: process.env.REFRESH_TOKEN_SECRET })
         if (verify) return verify
 
         return null
     }
 
+
     public async saveRefreshToken(
         userId: number,
         refreshToken: string
     ): Promise<Token> {
-        const isHaveToken = await this.tokenRepository.findOne({ where: { userId } })
+        try {
+            const isHaveToken = await this.tokenRepository.findOne({ where: { userId } })
 
-        if (isHaveToken) {
-            isHaveToken.refreshToken = refreshToken
-            return await isHaveToken.save()
+            if (isHaveToken) {
+                return await isHaveToken.update({ refreshToken, userId })
+            }
+
+            const token = await this.tokenRepository.create({ refreshToken, userId })
+            return token
+        } catch (error) {
+            console.log(error)
         }
-
-        const token = await this.tokenRepository.create({ refreshToken, userId })
-        return token
     }
 
     public async removeRefreshToken(

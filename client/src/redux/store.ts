@@ -1,20 +1,20 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import userReducer from './reducers/userSlice'
-
-const reducers = {
-    userReducer,
-}
+import { api } from '../api/api'
+import { userReducer } from './reducers/userSlice'
 
 const rootReducer = combineReducers({
-    ...reducers
+    userReducer,
+    [api.reducerPath]: api.reducer
 })
 
-const setupStore = () =>
-    configureStore({
-        reducer: rootReducer,
-    })
+const setupStore = configureStore({
+    reducer: rootReducer,
+    middleware(getDefaultMiddleware) {
+        return getDefaultMiddleware().concat(api.middleware)
+    },
+})
 
 export default setupStore
+
 export type RootState = ReturnType<typeof rootReducer>
-export type AppStore = ReturnType<typeof setupStore>
-export type AppDispatch = AppStore['dispatch']
+export type AppDispatch = typeof setupStore.dispatch

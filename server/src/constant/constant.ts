@@ -1,1 +1,1 @@
-export const refreshToken = 'refreshToken'
+export const refreshTokenTitle = 'refreshToken'

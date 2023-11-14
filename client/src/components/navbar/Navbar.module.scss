@@ -39,8 +39,6 @@
         border: none;
         border-radius: 50%;
         padding: 5px;
-        width: 30px;
-        height: 30px;
 
         &:last-child {
           margin-left: 5px;
@@ -53,8 +51,8 @@
         }
 
         > svg {
-          height: 100%;
-          width: 100%;
+          width: 20px;
+          height: 20px;
           border-radius: 50%;
         }
       }
@@ -64,15 +62,13 @@
       display: flex;
       > a {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
 
         background: black;
         border: none;
-        border-radius: 50%;
+        border-radius: 50px;
         padding: 5px;
-        width: 30px;
-        height: 30px;
 
         &:last-child {
           margin-left: 5px;
@@ -85,9 +81,17 @@
         }
 
         > svg {
-          height: 100%;
-          width: 100%;
-          border-radius: 50%;
+          width: 25px;
+          height: 25px;
+        }
+      }
+
+      .person {
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .name {
+          margin-right: 5px;
         }
       }
     }

@@ -6,25 +6,16 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import * as cookieParser from 'cookie-parser'
 import { AppModule } from './app.module'
 
-let corsOptionsDelegate: CorsOptionsDelegate<Request> = function (req, callback) {
-    let corsOptions
-
-    if (req.headers.origin === process.env.CLIENT_API) {
-        corsOptions = { origin: true }
-    } else {
-        corsOptions = { origin: false }
-    }
-
-    callback(null, corsOptions)
-}
-
 async function start() {
     const PORT = process.env.PORT || 4000
 
     try {
         const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
-        app.enableCors(corsOptionsDelegate)
+        app.enableCors({
+            origin: process.env.CLIENT_API,
+            credentials: true
+        })
         app.use(cookieParser())
 
         cloudinary.config({

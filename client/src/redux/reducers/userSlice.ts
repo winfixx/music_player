@@ -1,20 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { User } from '../../types/User'
 
-const initialState: User = {
-    id: 0,
-    isAuth: false,
-    email: '',
-    name: '',
-    password: ''
+interface UserInitialState extends Pick<User, 'user'>{
+    isAuth: boolean
 }
 
-export const UserSlice = createSlice({
+const initialState: UserInitialState = {
+    user: {
+        id: null,
+        name: '',
+        email: '',
+        avatar: '',
+        isActivated: false,
+        junior: false
+    },
+    isAuth: false,
+}
+
+export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-
+        setUser: (state, { payload }: PayloadAction<User['user']>) => {
+            state.user.id = payload.id
+            state.user.email = payload.email
+            state.user.avatar = payload.avatar
+            state.user.isActivated = payload.isActivated
+            state.user.junior = payload.junior
+            state.user.name = payload.name
+            state.isAuth = true
+        }
     }
 })
 
-export default UserSlice.reducer
+export const { actions: userActions, reducer: userReducer } = userSlice
