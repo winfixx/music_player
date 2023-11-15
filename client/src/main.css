@@ -4,15 +4,20 @@
   box-sizing: border-box;
 
   font-size: 1rem;
-  font-family: 'Roboto', sans-serif;;
+  font-family: 'Roboto', sans-serif;
 
-  color: #A7A7A7;
+  color: #a7a7a7;
   /* background-color: #121212; */
+}
+
+html,
+body {
+  background-color: black;
 }
 
 #root {
   height: 100vh;
-  background-color: black;
+  width: 100%;
 }
 
 .component {
@@ -55,6 +60,6 @@
   background-color: #27ae60;
 }
 
-input[type="range"] {
+input[type='range'] {
   background-color: #27ae60;
 }

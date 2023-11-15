@@ -1,0 +1,20 @@
+.container {
+  position: relative;
+  height: 30vh;
+  max-height: 400px;
+  min-height: 340px;
+
+  display: flex;
+  align-items: flex-end;
+
+  padding: 0 21px 21px 21px;
+
+  .background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(#535353, #2e2e2e);
+  }
+}

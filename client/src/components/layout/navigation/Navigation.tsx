@@ -5,28 +5,29 @@ import { NavLink } from 'react-router-dom'
 import styles from './navigation.module.scss'
 import { useLocationPath } from '../../../hooks/useLocationPath'
 
-interface INavigationProps {
-}
-
-const Navigation: React.FC<INavigationProps> = React.memo((props) => {
+const Navigation: React.FC = React.memo((props) => {
     const searchPath = useLocationPath('/search')
+    const homePath = useLocationPath('/')
 
     return (
         <nav className={styles.nav}>
             <div>
-                <NavLink
-                    className={!searchPath ? `${styles.a} ${styles.active}` : styles.a}
+                <NavLink className={homePath ? `${styles.a} ${styles.active}` : styles.a}
                     to={'/'}
                 >
-                    <span>{!searchPath ? <GoHomeFill size={25} /> : <GoHome size={25} />}</span> Главная
+                    <span>
+                        {homePath ? <GoHomeFill fill={'#fff'} size={25} /> : <GoHome size={25} />}
+                    </span>
+                    Главная
                 </NavLink>
             </div>
             <div>
-                <NavLink
-                    className={searchPath ? `${styles.a} ${styles.active}` : styles.a}
+                <NavLink className={searchPath ? `${styles.a} ${styles.active}` : styles.a}
                     to={'/search'}
                 >
-                    <span>{searchPath ? <RiSearch2Fill size={25} /> : <RiSearch2Line size={25} />}</span> Поиск
+                    <span>{searchPath ? <RiSearch2Fill fill={'#fff'} size={25} /> : <RiSearch2Line size={25} />}
+                    </span>
+                    Поиск
                 </NavLink>
             </div>
         </nav>

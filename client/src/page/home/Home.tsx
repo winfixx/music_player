@@ -27,20 +27,16 @@ const div = [
 ]
 
 const Home: React.FC = (props) => {
-    const { handleScroll, opacity } = useScroll()
 
     return (
-        <section onScroll={e => handleScroll(e)} className={styles.container}>
-            <div>
-                <div className={styles.background} />
-                <Navbar opacity={opacity} />
-                <div className={styles.content}>
-                    {div.map(i =>
-                        <div className={styles.main} key={i.id}>{i.page}</div>
-                    )}
-                </div>
+        <div className={styles.container}>
+            <div className={styles.background} />
+            <div className={styles.content}>
+                {div.map(i =>
+                    <div className={styles.main} key={i.id}>{i.page}</div>
+                )}
             </div>
-        </section>
+        </div>
     )
 }
 

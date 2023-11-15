@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { User } from '../../types/User'
 
-interface UserInitialState extends Pick<User, 'user'>{
+interface UserInitialState extends Pick<User, 'user'> {
     isAuth: boolean
 }
 
@@ -21,14 +21,14 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUser: (state, { payload }: PayloadAction<User['user']>) => {
+        setUser: (state, { payload }: PayloadAction<User['user'] | any>) => {
             state.user.id = payload.id
             state.user.email = payload.email
             state.user.avatar = payload.avatar
             state.user.isActivated = payload.isActivated
             state.user.junior = payload.junior
             state.user.name = payload.name
-            state.isAuth = true
+            state.isAuth = !!payload.email
         }
     }
 })

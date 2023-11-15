@@ -5,7 +5,7 @@ interface ButtonProps {
     children: React.ReactNode
     onClick?: () => void
     clear?: boolean,
-    activePlaylist?: boolean
+    activeType?: boolean
     activeTitle?: boolean
 }
 
@@ -13,11 +13,11 @@ const Button: React.FC<ButtonProps> = React.memo(({
     children,
     onClick,
     clear,
-    activePlaylist,
+    activeType,
     activeTitle
 }) => {
-    if (activePlaylist) {
-        return <span  className={`${styles.span} ${styles.activePlaylist}`}>
+    if (activeType) {
+        return <span  className={`${styles.span} ${styles.activeType}`}>
             <button onClick={onClick}>
                 {children}
             </button>

@@ -12,7 +12,7 @@ export class Album extends Model<Album> {
     name: string
 
     @Column({ type: DataType.STRING })
-    image: string
+    avatar: string
 
     @HasOne(() => LibraryAlbum)
     libraryAlbum: LibraryAlbum

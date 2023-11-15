@@ -42,7 +42,7 @@ export const getSequelizeConfig = async (
             Album,
             Preferences
         ],
-        // autoLoadModels: true,
-        // sync: { alter: true }
+        autoLoadModels: true,
+        sync: { }
     }
 }

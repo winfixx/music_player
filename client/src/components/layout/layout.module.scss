@@ -10,6 +10,33 @@ $radius: 10px;
 
   // border-radius: 15%;
 
+  .main {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column: 2;
+    border-radius: 10px;
+
+    background-color: #121212;
+
+    height: 100%;
+    width: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #3b3b3b;
+    }
+    &::-webkit-scrollbar-track {
+      background: #121212;
+      border-radius: 0 10px 10px 0;
+    }
+  }
+
   .layout {
     height: 100%;
 

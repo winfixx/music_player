@@ -90,7 +90,6 @@ export class AuthService {
         refresh: string
     ): Promise<CreateUserResponseDto> {
         try {
-            console.log('refresg', refresh)
             if (!refresh) throw new UnauthorizedException({ message: 'Пользователь не авторизован' })
 
             const token = await this.tokenService.verifyRefreshToken(refresh)

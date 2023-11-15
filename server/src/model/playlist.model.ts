@@ -17,7 +17,7 @@ export class Playlist extends Model<Playlist> {
     public: boolean
 
     @Column({ type: DataType.STRING })
-    image: string
+    avatar: string
 
     @BelongsToMany(() => Track, () => PlaylistTrack)
     track: Track[]

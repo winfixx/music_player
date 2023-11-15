@@ -45,7 +45,7 @@ const Filter: React.FC<FilterProps> = React.memo(() => {
                         {<MdClear />}
                     </ButtonLayout>
                     <ButtonLayout onClick={() => setType('')}
-                        activePlaylist={true}
+                        activeType={true}
                     >
                         {type}
                     </ButtonLayout>

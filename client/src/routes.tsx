@@ -5,10 +5,11 @@ import { createBrowserRouter } from 'react-router-dom'
 
 const Authorization = lazy(() => import('./page/authorization/Authorization'))
 const Search = lazy(() => import('./page/search/Search'))
+const Playlist = lazy(() => import('./page/create/Playlist'))
 
 export const router = createBrowserRouter([
     {
-        path: '*',
+        path: '/',
         element: <Layout><Home /></Layout>,
     },
     {
@@ -16,6 +17,14 @@ export const router = createBrowserRouter([
         element: <Layout>
             <Suspense>
                 <Search />
+            </Suspense>
+        </Layout>
+    },
+    {
+        path: '/playlist/:playlistId',
+        element: <Layout>
+            <Suspense>
+                <Playlist />
             </Suspense>
         </Layout>
     },

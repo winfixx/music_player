@@ -8,7 +8,6 @@ interface SearchProps {
 const Search: React.FunctionComponent<SearchProps> = (props) => {
   return (
     <div className={styles.container}>
-        <Navbar />
     </div>
   )
 }

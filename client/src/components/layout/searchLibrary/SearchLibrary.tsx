@@ -24,7 +24,7 @@ const SearchLibrary: React.FC<SearchLibraryProps> = React.memo((props) => {
         <span className={showSearch ? `${styles.button} ${styles.active}` : styles.button}
           onClick={open}
         >
-          {<RiSearchLine size={19} />}
+          {<RiSearchLine fill={showSearch ? '#fff' : '#A7A7A7'} size={19} />}
         </span>
 
         <CSSTransition in={showSearch}
