@@ -14,6 +14,7 @@ import styles from './Authorization.module.scss'
 import ButtonShared from '../../components/button/button-shared/ButtonShared'
 import Modal from '../../components/modals/Modal'
 import { ErrorReponse } from '../../api/api'
+import { BiErrorAlt } from 'react-icons/bi'
 
 export type UserForm = Pick<User['user'], 'email' | 'name'> & { password: string }
 
@@ -61,7 +62,7 @@ const Authorization: React.FC = () => {
                     onClickButton={() => setShowModal(false)}
                     onClickClear={() => setShowModal(false)}
                 >
-                    {(errorQuery as ErrorReponse)?.data?.message}
+                    <span className={styles.error__message}>{<BiErrorAlt />} {(errorQuery as ErrorReponse)?.data?.message}</span>
                 </Modal>}
             <div className={styles.container}>
                 <div>
