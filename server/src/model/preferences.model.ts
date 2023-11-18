@@ -1,4 +1,4 @@
-import { Column, DataType, ForeignKey, Table, Model } from 'sequelize-typescript'
+import { Column, DataType, ForeignKey, Table, Model, BelongsTo } from 'sequelize-typescript'
 import { User } from 'src/user/user.model'
 import { Genre } from './genre.model'
 
@@ -10,8 +10,12 @@ export class Preferences extends Model<Preferences> {
     @ForeignKey(() => User)
     @Column({ type: DataType.INTEGER })
     userId: number
+    @BelongsTo(() => User)
+    user: User
 
     @ForeignKey(() => Genre)
     @Column({ type: DataType.INTEGER })
     genreId: number
+    @BelongsTo(() => Genre)
+    genre: Genre
 }

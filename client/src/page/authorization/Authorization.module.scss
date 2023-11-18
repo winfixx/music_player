@@ -2,18 +2,6 @@
   display: flex;
   justify-content: center;
 }
-.error__message {
-  display: flex;
-  align-items: center;
-gap: 5px;
-  color: #fff;
-
-  > svg {
-    height: 20px;
-    width: 20px;
-    fill: red;
-  }
-}
 
 .container {
   @include default();

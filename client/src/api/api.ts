@@ -1,8 +1,6 @@
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { ACCESS_TOKEN, SERVER_API } from '../constants/constants'
 import { userActions } from '../redux/reducers/userSlice'
-import { MaybePromise } from '@reduxjs/toolkit/dist/query/tsHelpers'
-import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 
 const baseQuery = fetchBaseQuery({
     baseUrl: SERVER_API,
@@ -49,5 +47,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, ErrorReponse
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
-    endpoints: build => ({})
+    endpoints: build => ({}),
+    tagTypes: ['Playlist']
 })

@@ -3,18 +3,24 @@ import styles from './ButtonShared.module.scss'
 
 interface ButtonSharedProps {
     type: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
-    text: string
+    children: React.ReactNode
     onClickButton?: () => void
+    style?: React.CSSProperties
 }
 
 const ButtonShared: React.FunctionComponent<ButtonSharedProps> = ({
     type,
-    text,
-    onClickButton
+    children,
+    onClickButton,
+    style
 }) => {
     return (
-        <button onClick={onClickButton} className={styles.go} type={type}>
-            {text}
+        <button onClick={onClickButton}
+            style={style}
+            className={styles.button}
+            type={type}
+        >
+            {children}
         </button>
     )
 }

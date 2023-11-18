@@ -8,6 +8,7 @@ import { MailModule } from './mail/mail.module'
 import { UserModule } from './user/user.module'
 import { getSequelizeConfig } from './sequelize.config'
 import { TokenModule } from './token/token.module'
+import { PlaylistModule } from './playlist/playlist.module';
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { TokenModule } from './token/token.module'
         TokenModule,
         AuthModule,
         MailModule,
+        PlaylistModule,
     ],
 })
 export class AppModule {

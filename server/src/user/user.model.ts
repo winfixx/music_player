@@ -1,12 +1,12 @@
 import { BelongsToMany, Column, DataType, HasMany, HasOne, Model, Table } from 'sequelize-typescript'
 import { Album } from 'src/model/album.model'
 import { Genre } from 'src/model/genre.model'
-import { LibraryAlbum } from 'src/model/library_album.model'
-import { LibraryFolder } from 'src/model/library_folder.model'
-import { LibraryPlaylist } from 'src/model/library_playlist.model'
-import { Playlist } from 'src/model/playlist.model'
 import { Preferences } from 'src/model/preferences.model'
 import { Track } from 'src/model/track.model'
+import { Playlist } from 'src/playlist/playlist.model'
+import { LibraryAlbum } from 'src/user/library_album.model'
+import { LibraryFolder } from 'src/user/library_folder.model'
+import { LibraryPlaylist } from 'src/user/library_playlist.model'
 import { Token } from '../token/token.model'
 
 @Table({ tableName: 'user' })
@@ -35,28 +35,31 @@ export class User extends Model<User>{
     @Column({ type: DataType.BOOLEAN, defaultValue: true })
     junior: boolean
 
+    @Column({ type: DataType.INTEGER, defaultValue: 1 })
+    countOwnPlaylist: number
+
     @HasOne(() => Token)
     token: Token
 
-    @HasMany(() => LibraryAlbum)
-    libraryAlbum: LibraryAlbum[]
+    @BelongsToMany(() => Album, () => LibraryAlbum)
+    albumsLibrary: Album[]
 
-    @HasMany(() => LibraryPlaylist)
-    libraryPlaylist: LibraryPlaylist[]
+    @BelongsToMany(() => Playlist, () => LibraryPlaylist)
+    playlistsLibrary: Playlist[]
+
+    @BelongsToMany(() => Playlist, () => LibraryFolder)
+    playlistsFolder: Playlist[]
 
     @HasMany(() => Album)
-    album: Album[]
+    albums: Album[]
 
     @HasMany(() => Track)
-    track: Track[]
-
-    @HasMany(() => LibraryFolder)
-    libraryFolder: LibraryFolder[]
+    tracks: Track[]
 
     @HasMany(() => Playlist)
-    playlist: Playlist[]
+    playlists: Playlist[]
 
     @BelongsToMany(() => Genre, () => Preferences)
-    genre: Genre[]
+    genres: Genre[]
 }
 

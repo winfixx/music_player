@@ -7,8 +7,6 @@ import { LOGIN_ROUTE } from '../../constants/constants'
 import { useAppSelector } from '../../hooks/redux'
 import Search from './search/Search'
 import { useLocationPath } from '../../hooks/useLocationPath'
-import { useActionCreators } from '../../hooks/useActionCreators'
-import { userActions } from '../../redux/reducers/userSlice'
 
 interface NavbarProps {
     opacity?: number
@@ -18,7 +16,6 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
     const { isAuth, user } = useAppSelector(state => state.userReducer)
     const ref = React.useRef<HTMLInputElement>(null)
     const search = useLocationPath('/search')
-    const actions = useActionCreators(userActions)
 
     React.useEffect(() => {
         ref.current?.focus()

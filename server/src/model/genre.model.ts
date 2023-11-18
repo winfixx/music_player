@@ -13,8 +13,8 @@ export class Genre extends Model<Genre> {
     name: string
 
     @BelongsToMany(() => Track, () => TrackGenre)
-    track: Track[]
+    tracks: Track[]
 
     @BelongsToMany(() => User, () => Preferences)
-    user: User[]
+    users: User[]
 }

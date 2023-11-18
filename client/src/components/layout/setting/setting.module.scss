@@ -1,4 +1,6 @@
 .settings {
+  user-select: none;
+
   > div {
     display: flex;
     justify-content: space-between;
@@ -12,6 +14,12 @@
       &:hover {
         color: #ffffff;
         cursor: pointer;
+
+        > span {
+          > svg {
+            fill: #fff;
+          }
+        }
       }
 
       > span {
@@ -24,6 +32,8 @@
     .button {
       display: flex;
       align-items: center;
+
+      position: relative;
 
       > span {
         display: flex;
@@ -38,10 +48,14 @@
           height: 100%;
         }
 
-        transition: background-color .3s;
+        transition: background-color 0.3s;
         &:hover {
           background-color: #1b1b1b;
           cursor: pointer;
+
+          > svg {
+            fill: #fff;
+          }
         }
 
         &:first-child {

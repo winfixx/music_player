@@ -15,7 +15,7 @@ export class MailService {
         return await this.mailerService.sendMail({
             from: process.env.SMTP_USER,
             to,
-            subject: 'Spotify ✔',
+            subject: 'potifon ✔',
             text: `Активация аккаунта на ${process.env.CLIENT_API}`,
             html: `
                 <div>

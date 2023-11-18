@@ -1,6 +1,6 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, HasOne, Model, Table } from 'sequelize-typescript'
-import { LibraryAlbum } from './library_album.model'
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, HasOne, Model, Table } from 'sequelize-typescript'
 import { User } from 'src/user/user.model'
+import { LibraryAlbum } from '../user/library_album.model'
 import { Track } from './track.model'
 
 @Table({ tableName: 'album' })
@@ -14,16 +14,15 @@ export class Album extends Model<Album> {
     @Column({ type: DataType.STRING })
     avatar: string
 
-    @HasOne(() => LibraryAlbum)
-    libraryAlbum: LibraryAlbum
+    @BelongsToMany(() => User, () => LibraryAlbum)
+    usersLibrary: User[]
 
     @ForeignKey(() => User)
-    @Column({type: DataType.INTEGER})
-    userId: number
-
+    @Column({ type: DataType.INTEGER })
+    authorId: number
     @BelongsTo(() => User)
-    user: User
+    author: User
 
     @HasMany(() => Track)
-    track: Track[]
+    tracks: Track[]
 }

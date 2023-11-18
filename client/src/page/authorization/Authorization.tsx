@@ -19,7 +19,7 @@ import { BiErrorAlt } from 'react-icons/bi'
 export type UserForm = Pick<User['user'], 'email' | 'name'> & { password: string }
 
 const Authorization: React.FC = () => {
-    const [showModal, setShowModal] = React.useState(false)
+    const [showModalError, setShowModalError] = React.useState(false)
     const navigate = useNavigate()
     const loginPath = useLocationPath('/login')
 
@@ -40,9 +40,7 @@ const Authorization: React.FC = () => {
     }, [userData?.user.id])
 
     React.useEffect(() => {
-        if (isError && !showModal) {
-            setShowModal(true)
-        }
+        if (isError && !showModalError) setShowModalError(!showModalError)
     }, [isError])
 
     const onSubmit: SubmitHandler<UserForm> = async (user) => {
@@ -55,15 +53,15 @@ const Authorization: React.FC = () => {
 
     return (
         <>
-            {showModal
+            {showModalError
                 && <Modal textButton='Хорошо'
                     titleModal='Упс... Ошибка'
                     typeButton='button'
-                    onClickButton={() => setShowModal(false)}
-                    onClickClear={() => setShowModal(false)}
-                >
-                    <span className={styles.error__message}>{<BiErrorAlt />} {(errorQuery as ErrorReponse)?.data?.message}</span>
-                </Modal>}
+                    onClickButton={() => setShowModalError(!showModalError)}
+                    onClickClear={() => setShowModalError(!showModalError)}
+                    error={true}
+                    errorMessage={(errorQuery as ErrorReponse)?.data?.message}
+                />}
             <div className={styles.container}>
                 <div>
                     <span onClick={() =>
@@ -101,10 +99,14 @@ const Authorization: React.FC = () => {
                             <div className={styles['div-button']}>
                                 {loginPath
                                     ? <>
-                                        <ButtonShared text='Войти' type='submit' />
+                                        <ButtonShared type='submit'>
+                                            Войти
+                                        </ButtonShared>
                                         <button type='button' className={styles.recovery}>Забыли пароль?</button>
                                     </>
-                                    : <ButtonShared text='Зарегистрироваться' type='submit' />
+                                    : <ButtonShared type='submit'>
+                                        Зарегистрироваться
+                                    </ButtonShared>
                                 }
                             </div>
                         </div>

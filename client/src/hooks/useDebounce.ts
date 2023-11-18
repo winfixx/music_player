@@ -9,9 +9,7 @@ function useDebounce<T, U extends number>(value: T, delay: U) {
             setDebouncedValue(value)
         }, delay)
 
-        return () => {
-            clearTimeout(t)
-        }
+        return () => clearTimeout(t)
 
     }, [value, delay])
 

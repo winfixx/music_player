@@ -19,6 +19,12 @@ export class UserService {
         const user = await this.userRepository.create(createUserDto)
         return user
     }
+    public async findUserById(
+        userId: number
+    ): Promise<User> {
+        const user = await this.userRepository.findOne({ where: { id: userId } })
+        return user
+    }
 
 
     public async findUserByEmailAndName(
