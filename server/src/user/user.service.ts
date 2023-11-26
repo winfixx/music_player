@@ -20,7 +20,7 @@ export class UserService {
         return user
     }
     public async findUserById(
-        userId: number
+        userId: number | string
     ): Promise<User> {
         const user = await this.userRepository.findOne({ where: { id: userId } })
         return user

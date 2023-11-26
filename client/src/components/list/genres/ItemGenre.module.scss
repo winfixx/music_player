@@ -1,0 +1,14 @@
+.div {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #3b3b3b;
+  padding: 5px 12px;
+
+  &:hover {
+    background-color: #464646;
+  }
+
+  > span {
+    color: #fff;
+  }
+}

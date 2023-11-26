@@ -1,0 +1,27 @@
+.menu {
+  position: relative;
+  padding: 20px;
+  z-index: 0;
+
+  .background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 232px;
+    z-index: -1;
+    background: linear-gradient(#212121, #121212);
+  }
+
+  .button__menu {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+
+    .setting {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { BelongsToMany, Column, DataType, HasMany, HasOne, Model, Table } from 'sequelize-typescript'
-import { Album } from 'src/model/album.model'
+import { Album } from 'src/album/album.model'
 import { Genre } from 'src/model/genre.model'
 import { Preferences } from 'src/model/preferences.model'
 import { Track } from 'src/model/track.model'
@@ -37,6 +37,9 @@ export class User extends Model<User>{
 
     @Column({ type: DataType.INTEGER, defaultValue: 1 })
     countOwnPlaylist: number
+
+    @Column({ type: DataType.INTEGER, defaultValue: 1 })
+    countOwnAlbum: number
 
     @HasOne(() => Token)
     token: Token

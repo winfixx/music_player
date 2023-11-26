@@ -1,0 +1,52 @@
+.track {
+  display: grid;
+  grid-template-columns:
+    [index] 16px
+    [first] 6fr
+    [var1] 4fr
+    [var2] 3fr
+    [last] minmax(120px, 1fr);
+  grid-template-rows: 56px;
+  align-items: center;
+  grid-gap: 16px;
+  z-index: 1;
+  padding: 0 16px;
+  transform: translateY(0);
+  opacity: 0;
+  animation: renderTrack 0.1s linear forwards;
+
+  @keyframes renderTrack {
+    from {
+      opacity: 0;
+      transform: translateY(-56px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+
+  div,
+  span,
+  a {
+    font-size: 14px;
+  }
+}
+@media (max-width: 1100px) {
+  .track {
+    grid-template-columns:
+      [index] 16px
+      [first] 6fr
+      [var1] 4fr
+      [last] minmax(120px, 1fr);
+  }
+}

@@ -4,7 +4,7 @@ import styles from './ButtonShared.module.scss'
 interface ButtonSharedProps {
     type: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
     children: React.ReactNode
-    onClickButton?: () => void
+    onClickButton?: (args: unknown) => void | Promise<unknown>
     style?: React.CSSProperties
 }
 

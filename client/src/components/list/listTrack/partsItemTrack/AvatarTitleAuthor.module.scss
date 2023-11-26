@@ -1,0 +1,38 @@
+.main-infos__track {
+  display: flex;
+  align-items: center;
+
+  .avatar__custom {
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+  }
+
+  .avatar__default {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-right: 5px;
+
+    background-color: #212121;
+    > svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .naming__track {
+    display: flex;
+    flex-direction: column;
+
+    .name__track {
+      font-size: 16px;
+      color: #fff;
+      justify-self: flex-start;
+    }
+  }
+}

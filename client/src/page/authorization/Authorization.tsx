@@ -1,20 +1,19 @@
 import * as React from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { ACCESS_TOKEN, LOGIN_ROUTE, POTIFON, REGISTRATION_ROUTE } from '../../constants/constants'
-import { User } from '../../types/User'
+import { ErrorResponse } from '../../api/rtk/api'
+import { userApi } from '../../api/rtk/user.api'
+import ButtonShared from '../../components/button/button-shared/ButtonShared'
 import InputAuth from '../../components/input/input-auth/InputAuth'
-import { userApi } from '../../api/user.api'
-import { userActions } from '../../redux/reducers/userSlice'
+import Modal from '../../components/modals/defaultModal/Modal'
+import { ACCESS_TOKEN, LOGIN_ROUTE, POTIFON, REGISTRATION_ROUTE } from '../../constants/constants'
 import { useActionCreators } from '../../hooks/useActionCreators'
 import { useLocationPath } from '../../hooks/useLocationPath'
-import { fieldInputForm } from './field-input-form'
+import { userActions } from '../../redux/reducers/userSlice'
+import { User } from '../../types/User.type'
 import styles from './Authorization.module.scss'
-import ButtonShared from '../../components/button/button-shared/ButtonShared'
-import Modal from '../../components/modals/Modal'
-import { ErrorReponse } from '../../api/api'
-import { BiErrorAlt } from 'react-icons/bi'
+import { fieldInputForm } from './field-input-form'
 
 export type UserForm = Pick<User['user'], 'email' | 'name'> & { password: string }
 
@@ -60,7 +59,7 @@ const Authorization: React.FC = () => {
                     onClickButton={() => setShowModalError(!showModalError)}
                     onClickClear={() => setShowModalError(!showModalError)}
                     error={true}
-                    errorMessage={(errorQuery as ErrorReponse)?.data?.message}
+                    errorMessage={(errorQuery as ErrorResponse)?.data?.message}
                 />}
             <div className={styles.container}>
                 <div>
@@ -114,10 +113,10 @@ const Authorization: React.FC = () => {
                         <div className={styles.redirect}>
                             {loginPath
                                 ? <p>
-                                    <span>Нет аккаунта?</span> <NavLink to={REGISTRATION_ROUTE}>Регистрация в {POTIFON}</NavLink>
+                                    <span>Нет аккаунта?</span> <NavLink to={`/${REGISTRATION_ROUTE}`}>Регистрация в {POTIFON}</NavLink>
                                 </p>
                                 : <p>
-                                    <span>Есть аккаунт?</span> <NavLink to={LOGIN_ROUTE}>Вход в {POTIFON}</NavLink>
+                                    <span>Есть аккаунт?</span> <NavLink to={`/${LOGIN_ROUTE}`}>Вход в {POTIFON}</NavLink>
                                 </p>
                             }
                         </div>

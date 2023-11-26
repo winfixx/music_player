@@ -1,9 +1,8 @@
 import * as React from 'react'
-import styles from './InputAuth.module.scss'
-import { BiErrorAlt } from 'react-icons/bi'
 import { FieldErrors, UseFormRegister } from 'react-hook-form'
-import { User } from '../../../types/User'
+import { BiErrorAlt } from 'react-icons/bi'
 import { UserForm } from '../../../page/authorization/Authorization'
+import styles from './InputAuth.module.scss'
 
 export interface AuthInputProps {
     register: UseFormRegister<UserForm> | any

@@ -62,6 +62,16 @@
       }
     }
 
+    .search {
+      flex-grow: 1;
+
+      > div {
+        min-width: 170px;
+        max-width: 360px;
+        height: 48px;
+      }
+    }
+
     .menu {
       display: flex;
       > a {

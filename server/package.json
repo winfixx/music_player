@@ -5,6 +5,11 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "resolutions": {
+    "wrap-ansi": "7.0.0",
+    "string-width": "4.1.0",
+    "strip-ansi": "6.0.0"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -38,7 +43,9 @@
     "rxjs": "^7.8.1",
     "sequelize": "^6.34.0",
     "sequelize-typescript": "^2.1.5",
-    "uuid": "^9.0.1"
+    "string-width": "^7.0.0",
+    "uuid": "^9.0.1",
+    "wrap-ansi": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

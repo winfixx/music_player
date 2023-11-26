@@ -1,8 +1,8 @@
-.container {
+.under {
   position: relative;
   height: 30vh;
-  max-height: 400px;
-  min-height: 340px;
+  max-height: 336px;
+  min-height: 276px;
 
   display: flex;
   align-items: flex-end;
@@ -11,7 +11,7 @@
 
   .background {
     position: absolute;
-    top: 0;
+    top: -64px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -19,6 +19,9 @@
   }
 
   .avatar {
+    position: relative;
+    min-height: 192px;
+    min-width: 192px;
     width: 192px;
     height: 192px;
     margin-right: 15px;
@@ -26,7 +29,7 @@
 
     z-index: 1;
     background: #282828;
-    box-shadow: 0 0 15px 0px #2e2e2e;
+    box-shadow: 0 0 20px 10px #2c2c2c;
 
     .img {
       display: flex;
@@ -41,6 +44,46 @@
         width: 30%;
       }
     }
+    .change__img {
+      display: none;
+    }
+    &:hover {
+      .change__img {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        > svg {
+          fill: #fff;
+          width: 35%;
+          height: 35%;
+          z-index: 1;
+        }
+
+        > span {
+          color: #fff;
+          z-index: 1;
+        }
+
+        > div {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          opacity: 0.5;
+
+          background: #282828;
+        }
+      }
+    }
   }
 
   .infos {
@@ -52,30 +95,54 @@
       color: #fff;
       font-size: 14px;
     }
-    
+
     .heading {
       display: flex;
       align-items: center;
     }
-    
+
     .title {
       display: flex;
       font-size: var(--font-size-title);
       white-space: none;
       margin: 5px 0;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .extra__info {
       display: flex;
+      align-items: center;
       margin-top: 8px;
       > span {
-        a {
-          text-decoration: none;
-          
-          &:hover {
-            text-decoration: underline;
+        margin-right: 5px;
+
+        &:first-child {
+          > a {
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
           }
         }
+      }
+    }
+  }
+
+  @media (max-width: 1315px) {
+    .infos {
+      .title {
+        font-size: 48px;
+      }
+    }
+  }
+  @media (max-width: 988px) {
+    .infos {
+      .title {
+        font-size: 32px;
       }
     }
   }

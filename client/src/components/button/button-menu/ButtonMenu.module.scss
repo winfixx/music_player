@@ -1,0 +1,31 @@
+.button {
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 6px;
+    background: none;
+    gap: 5px;
+
+    padding: 12px 8px 12px 12px;
+
+    transition: background 0.1s linear;
+    &:hover {
+      cursor: pointer;
+      background: #464343;
+    }
+
+    > span {
+      text-align: left;
+      flex: 1;
+
+      font-size: 13px;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    > svg {
+      fill: #fff;
+      width: 21px;
+      height: 21px;
+    }
+  }

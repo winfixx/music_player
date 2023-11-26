@@ -1,8 +1,6 @@
 import { NestFactory } from '@nestjs/core'
-import { v2 as cloudinary } from 'cloudinary'
-import { CorsOptionsDelegate } from '@nestjs/common/interfaces/external/cors-options.interface'
-import { Request } from 'express'
 import { NestExpressApplication } from '@nestjs/platform-express'
+import { v2 as cloudinary } from 'cloudinary'
 import * as cookieParser from 'cookie-parser'
 import { AppModule } from './app.module'
 

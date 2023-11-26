@@ -1,12 +1,12 @@
 import * as React from 'react'
+import { BsPerson } from 'react-icons/bs'
 import { IoIosArrowBack, IoIosArrowForward, IoMdNotificationsOutline } from 'react-icons/io'
 import { NavLink } from 'react-router-dom'
-import { BsPerson } from 'react-icons/bs'
-import styles from './Navbar.module.scss'
 import { LOGIN_ROUTE } from '../../constants/constants'
 import { useAppSelector } from '../../hooks/redux'
-import Search from './search/Search'
 import { useLocationPath } from '../../hooks/useLocationPath'
+import SearchInput from '../input/search-input/SearchInput'
+import styles from './Navbar.module.scss'
 
 interface NavbarProps {
     opacity?: number
@@ -16,6 +16,10 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
     const { isAuth, user } = useAppSelector(state => state.userReducer)
     const ref = React.useRef<HTMLInputElement>(null)
     const search = useLocationPath('/search')
+
+    const handleSearch = (dataSearch: string) => {
+        console.log(dataSearch)
+    }
 
     React.useEffect(() => {
         ref.current?.focus()
@@ -33,12 +37,22 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
                     <button>{<IoIosArrowForward />}</button>
                 </div>
 
-                {search && <Search ref={ref} />}
+                {search
+                    && <div className={styles.search}>
+                        <div>
+                            <SearchInput ref={ref}
+                                handleSearch={handleSearch}
+                                placeholder='Что хочешь послушать?'
+                            />
+                        </div>
+                    </div>
+                }
+
 
                 <div className={styles.menu}>
                     <NavLink to=''>{<IoMdNotificationsOutline />}</NavLink>
                     <NavLink className={isAuth ? styles.person : ''}
-                        to={isAuth ? '' : LOGIN_ROUTE}
+                        to={isAuth ? '' : `/${LOGIN_ROUTE}`}
                     >
                         {isAuth
                             && <span className={styles.name}>{user.name}</span>
@@ -47,7 +61,7 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
                     </NavLink>
                 </div>
             </div>
-        </header>
+        </header >
     )
 }
 

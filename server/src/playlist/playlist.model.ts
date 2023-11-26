@@ -1,4 +1,4 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript'
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { User } from 'src/user/user.model'
 import { Track } from '../model/track.model'
 import { LibraryFolder } from '../user/library_folder.model'

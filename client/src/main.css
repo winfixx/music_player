@@ -3,8 +3,10 @@
   padding: 0px;
   box-sizing: border-box;
 
-  font-size: 1rem;
-  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  font-family: 'Wix Madefor Text', sans-serif;
+
+/* font-family: 'Roboto', sans-serif; */
 
   color: #a7a7a7;
   /* background-color: #121212; */

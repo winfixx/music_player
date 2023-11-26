@@ -1,14 +1,19 @@
 import * as React from 'react'
-import { VscLibrary } from 'react-icons/vsc'
 import { BsPlusLg } from 'react-icons/bs'
 import { GoArrowRight } from "react-icons/go"
+import { MdOutlineFolder, MdOutlinePlaylistAdd } from 'react-icons/md'
+import { RiAlbumLine } from 'react-icons/ri'
+import { VscLibrary } from 'react-icons/vsc'
 import { useNavigate } from 'react-router-dom'
-import styles from './setting.module.scss'
-import { playlistApi } from '../../../api/playlist.api'
+import { ErrorResponse } from '../../../api/rtk/api'
+import { albumApi } from '../../../api/rtk/album.api'
+import { playlistApi } from '../../../api/rtk/playlist.api'
+import { ALBUM_ROUTE, PLAYLIST_ROUTE } from '../../../constants/constants'
 import { useAppSelector } from '../../../hooks/redux'
-import Modal from '../../modals/Modal'
-import { ErrorReponse } from '../../../api/api'
-import ContextMenu from './menu/ContextMenu'
+import ButtonMenu from '../../button/button-menu/ButtonMenu'
+import ContextMenu from '../../menu/ContextMenu'
+import Modal from '../../modals/defaultModal/Modal'
+import styles from './setting.module.scss'
 
 const Setting: React.FC = React.memo(() => {
     const [showMenu, setShowMenu] = React.useState(false)
@@ -16,21 +21,32 @@ const Setting: React.FC = React.memo(() => {
     const navigate = useNavigate()
 
     const userId = useAppSelector(state => state.userReducer.user.id)
-    const [createPlaylist, { isError: isErrorQuery, isSuccess: isSuccessQuery, error: errorQuery, data: dataPlaylist }] = playlistApi.useCreatePlaylistMutation()
+    const [createPlaylist, { isError: isErrorPlaylist, isSuccess: isSuccessPlaylist, error: errorPlaylist, data: dataPlaylist }] = playlistApi.useCreatePlaylistMutation()
+    const [createAlbum, { isError: isErrorAlbum, isSuccess: isSuccessAlbum, error: errorAlbum, data: dataAlbum }] = albumApi.useCreateAlbumMutation()
 
     React.useEffect(() => {
-        if (isErrorQuery) setShowModalError(!showModalError)
-    }, [isErrorQuery])
+        if (isErrorPlaylist) return setShowModalError(!showModalError)
+        if (isErrorAlbum) return setShowModalError(!showModalError)
+    }, [isErrorPlaylist, isErrorAlbum])
 
     React.useEffect(() => {
-        if (isSuccessQuery) {
-            navigate(`/playlist/${dataPlaylist?.id}`)
-        }
-    }, [isSuccessQuery])
+        if (isSuccessPlaylist) return navigate(`/${PLAYLIST_ROUTE}/${dataPlaylist?.id}`)
+        if (isSuccessAlbum) return navigate(`/${ALBUM_ROUTE}/${dataAlbum?.id}`)
+    }, [isSuccessPlaylist, isSuccessAlbum])
 
     const onCreatePlaylist = async () => {
         try {
-            await createPlaylist({ userId })
+            await createPlaylist(userId)
+                .finally(() => setShowMenu(!showMenu))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const onCreateAlbum = async () => {
+        try {
+            await createAlbum(userId)
+                .finally(() => setShowMenu(!showMenu))
         } catch (error) {
             console.log(error)
         }
@@ -45,7 +61,10 @@ const Setting: React.FC = React.memo(() => {
                     titleModal='Упс... Ошибка'
                     typeButton='button'
                     error={true}
-                    errorMessage={(errorQuery as ErrorReponse)?.data?.message}
+                    errorMessage={errorPlaylist
+                        ? (errorPlaylist as ErrorResponse)?.data?.message
+                        : (errorAlbum as ErrorResponse)?.data?.message
+                    }
                 />
             }
             <div className={styles.settings}>
@@ -59,9 +78,20 @@ const Setting: React.FC = React.memo(() => {
                         <span>{<GoArrowRight size={22.5} />}</span>
 
                         {showMenu
-                            && <ContextMenu onCreatePlaylist={onCreatePlaylist}
-                                onShowMenu={() => setShowMenu(!showMenu)}
-                            />
+                            && <ContextMenu>
+                                <ButtonMenu onClick={onCreatePlaylist}
+                                    text='Создать плейлист'
+                                    icon={< MdOutlinePlaylistAdd />}
+                                />
+                                <ButtonMenu onClick={onCreateAlbum}
+                                    text='Создать альбом'
+                                    icon={<RiAlbumLine />}
+                                />
+                                <ButtonMenu onClick={() => { }}
+                                    text='Создать папку с плейлистами'
+                                    icon={< MdOutlineFolder />}
+                                />
+                            </ContextMenu>
                         }
                     </div>
                 </div>

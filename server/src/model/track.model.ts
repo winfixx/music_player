@@ -1,8 +1,8 @@
 import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { User } from 'src/user/user.model'
+import { Album } from '../album/album.model'
 import { Playlist } from '../playlist/playlist.model'
 import { PlaylistTrack } from '../playlist/playlist_track.model'
-import { Album } from './album.model'
 import { Genre } from './genre.model'
 import { TrackGenre } from './track_genre.model'
 
@@ -19,6 +19,9 @@ export class Track extends Model<Track> {
 
     @Column({ type: DataType.STRING })
     avatar: string
+
+    @Column({ type: DataType.STRING })
+    time: string
 
     @ForeignKey(() => Album)
     @Column({ type: DataType.INTEGER })

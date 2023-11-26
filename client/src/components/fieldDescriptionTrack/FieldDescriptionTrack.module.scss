@@ -1,0 +1,58 @@
+.description-field__track {
+  display: flex;
+  position: sticky;
+  z-index: 1;
+  top: 64px;
+  height: 36px;
+  padding: 0px 16px;
+  border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+
+  .track__menu-grid {
+    display: grid;
+    grid-template-columns:
+      [index] 16px
+      [first] 6fr
+      [var1] 4fr
+      [var2] 3fr
+      [last] minmax(120px, 1fr);
+    align-items: center;
+    grid-gap: 16px;
+    width: 100%;
+
+    div {
+      #index {
+        font-size: 16px;
+      }
+      > span {
+        font-size: 14px;
+      }
+      > svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .title__track {
+      display: flex;
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .times {
+      justify-self: center;
+    }
+  }
+  @media (max-width: 1100px) {
+    .track__menu-grid {
+      grid-template-columns: 
+        [index] 16px
+        [first] 6fr
+        [var1] 4fr
+        [last] minmax(120px, 1fr);
+
+      .date_add_track {
+        display: none;
+      }
+    }
+  }
+}

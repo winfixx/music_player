@@ -1,6 +1,6 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { User } from 'src/user/user.model'
-import { Album } from '../model/album.model'
+import { Album } from '../album/album.model'
 
 @Table({ tableName: 'library_album' })
 export class LibraryAlbum extends Model<LibraryAlbum> {

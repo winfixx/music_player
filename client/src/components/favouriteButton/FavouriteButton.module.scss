@@ -1,0 +1,88 @@
+.favourites {
+  .like {
+    display: flex;
+    background: none;
+    border: none;
+    > svg {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.1s linear;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .like.haveInLibrary {
+    position: relative;
+    border-radius: 50%;
+
+    &:focus {
+      animation: circle 0.5s ease-out;
+      svg {
+        animation: like 0.3s ease-out;
+      }
+    }
+    svg {
+      fill: #1ed760;
+    }
+    @keyframes circle {
+      0% {
+        outline-style: solid;
+        outline-color: #1ed760;
+        outline-width: 1px;
+        outline-offset: -5px;
+        transform: scale(0.9);
+      }
+      100% {
+        outline-offset: 30px;
+        outline-width: 5px;
+        transform: scale(1.05);
+      }
+    }
+    @keyframes like {
+      0% {
+        transform: scale(0.95);
+      }
+      100% {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .like.notInLibrary {
+    &:focus {
+      svg {
+        animation: unLike 0.5s ease-out;
+      }
+    }
+    svg {
+      &:hover {
+        fill: #fff;
+      }
+    }
+    @keyframes unLike {
+      0% {
+        fill: #1ed760;
+        transform: rotate(0) translateX(0);
+      }
+      20% {
+        transform: rotate(-5deg) translateX(-7px);
+      }
+      40% {
+        transform: rotate(5deg) translateX(7px);
+      }
+      60% {
+        fill: #a7a7a7;
+        transform: rotate(-3deg) translateX(-2px);
+      }
+      80% {
+        transform: rotate(3deg) translateX(2px);
+      }
+      100% {
+        transform: rotate(0) translateX(0);
+      }
+    }
+  }
+}
