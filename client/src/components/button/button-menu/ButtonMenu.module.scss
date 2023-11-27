@@ -1,18 +1,30 @@
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  gap: 10px;
+
+  padding: 10px 8px 10px 8px;
+
+  transition: background 0.1s linear;
+  &:hover {
+    cursor: pointer;
+    background: #464343;
+  }
+
+  svg {
+    fill: #fff;
+    width: 21px;
+    height: 21px;
+  }
+
+  > div {
     display: flex;
     align-items: center;
-    border: none;
-    border-radius: 6px;
-    background: none;
-    gap: 5px;
-
-    padding: 12px 8px 12px 12px;
-
-    transition: background 0.1s linear;
-    &:hover {
-      cursor: pointer;
-      background: #464343;
-    }
+    gap: 6px;
 
     > span {
       text-align: left;
@@ -22,10 +34,5 @@
       color: #fff;
       white-space: nowrap;
     }
-
-    > svg {
-      fill: #fff;
-      width: 21px;
-      height: 21px;
-    }
   }
+}

@@ -15,6 +15,7 @@ import Filter from './filter/Filter'
 import Navigation from './navigation/Navigation'
 import SearchLibrary from './searchLibrary/SearchLibrary'
 import Setting from './setting/Setting'
+import Library from './library/Library'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -73,22 +74,7 @@ const Layout: React.FC<LayoutProps> = React.memo(({
         {children}
       </section>
 
-      <section className={styles.layout}>
-        <div className={styles.library}>
-
-          <Setting />
-          <Filter />
-
-          <div className={styles.content}>
-            <SearchLibrary />
-
-            <div className={styles.list}>
-              {/* list playlist, album, folder */}
-            </div>
-          </div>
-
-        </div>
-      </section>
+      <Library />
 
       <section className={styles.under}>
         <MusicPlayer />

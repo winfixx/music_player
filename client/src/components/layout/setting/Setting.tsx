@@ -5,8 +5,8 @@ import { MdOutlineFolder, MdOutlinePlaylistAdd } from 'react-icons/md'
 import { RiAlbumLine } from 'react-icons/ri'
 import { VscLibrary } from 'react-icons/vsc'
 import { useNavigate } from 'react-router-dom'
-import { ErrorResponse } from '../../../api/rtk/api'
 import { albumApi } from '../../../api/rtk/album.api'
+import { ErrorResponse } from '../../../api/rtk/api'
 import { playlistApi } from '../../../api/rtk/playlist.api'
 import { ALBUM_ROUTE, PLAYLIST_ROUTE } from '../../../constants/constants'
 import { useAppSelector } from '../../../hooks/redux'
@@ -78,7 +78,10 @@ const Setting: React.FC = React.memo(() => {
                         <span>{<GoArrowRight size={22.5} />}</span>
 
                         {showMenu
-                            && <ContextMenu>
+                            && <ContextMenu style={{ top: 30, left: 0 }}
+                                setShowMenu={setShowMenu}
+                                showMenu={showMenu}
+                            >
                                 <ButtonMenu onClick={onCreatePlaylist}
                                     text='Создать плейлист'
                                     icon={< MdOutlinePlaylistAdd />}

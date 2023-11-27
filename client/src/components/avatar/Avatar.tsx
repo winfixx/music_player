@@ -69,7 +69,7 @@ const Avatar: React.FunctionComponent<IAvatarProps> = React.memo(({
             {changeModal
                 && <div className={styles.settings}>
                     <BsThreeDots />
-                    <ContextMenu>
+                    <ContextMenu style={{ top: 30, left: 0 }}>
                         <ButtonMenu icon={<PiMountains />}
                             text='Сменить фото'
                             onClick={onBtnClick}

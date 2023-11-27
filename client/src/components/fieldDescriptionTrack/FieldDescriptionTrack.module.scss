@@ -6,6 +6,7 @@
   height: 36px;
   padding: 0px 16px;
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+  background-color: #121212;
 
   .track__menu-grid {
     display: grid;
@@ -20,20 +21,23 @@
     width: 100%;
 
     div {
+      display: flex;
+      align-items: center;
       #index {
         font-size: 16px;
       }
-      > span {
+      span {
+        color: #fff;
         font-size: 14px;
       }
       > svg {
-        width: 20px;
-        height: 20px;
+        fill: #fff;
+        width: 18px;
+        height: 18px;
       }
     }
 
     .title__track {
-      display: flex;
       justify-content: flex-start;
       width: 100%;
     }
@@ -44,7 +48,7 @@
   }
   @media (max-width: 1100px) {
     .track__menu-grid {
-      grid-template-columns: 
+      grid-template-columns:
         [index] 16px
         [first] 6fr
         [var1] 4fr

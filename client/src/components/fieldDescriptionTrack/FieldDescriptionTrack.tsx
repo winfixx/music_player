@@ -1,6 +1,6 @@
 import * as React from 'react'
+import { FaRegClock } from 'react-icons/fa'
 import styles from './FieldDescriptionTrack.module.scss'
-import { IoTimeOutline } from 'react-icons/io5'
 
 interface FieldDescriptionTrackProps {
     playlist: boolean
@@ -24,7 +24,7 @@ const FieldDescriptionTrack: React.FunctionComponent<FieldDescriptionTrackProps>
                         <div className={styles.date_add_track}><span>Дата добавления</span></div>
                     </>
                 }
-                <div className={styles.times}><IoTimeOutline /></div>
+                <div className={styles.times}><FaRegClock /></div>
             </div>
         </div>
     )

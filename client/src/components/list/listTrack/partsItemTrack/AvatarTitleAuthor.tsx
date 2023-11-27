@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { RiMusic2Line } from 'react-icons/ri'
-import styles from './AvatarTitleAuthor.module.scss'
 import { NavLink } from 'react-router-dom'
 import { SERVER_API } from '../../../../constants/constants'
+import styles from './AvatarTitleAuthor.module.scss'
 
 interface IAvatarTitleAuthorProps {
     avatarTrack: string

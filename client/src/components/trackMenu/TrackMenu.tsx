@@ -1,9 +1,14 @@
 import * as React from 'react'
+import { BsPerson } from 'react-icons/bs'
 import { FaPlay } from 'react-icons/fa'
+import { GoPencil } from 'react-icons/go'
+import { MdDeleteOutline } from 'react-icons/md'
 import { PickIdsPlaylistArgs } from '../../types/PlaylistArgs.type'
+import ButtonMenu from '../button/button-menu/ButtonMenu'
 import ButtonShared from '../button/button-shared/ButtonShared'
 import ThreeDots from '../button/threeDots/ThreeDots'
 import FavouriteButton from '../favouriteButton/FavouriteButton'
+import ContextMenu from '../menu/ContextMenu'
 import styles from './TrackMenu.module.scss'
 
 interface ITrackMenuProps {
@@ -23,9 +28,10 @@ const TrackMenu: React.FunctionComponent<ITrackMenuProps> = React.memo(({
     addInLibrary,
     deleteFromLibrary
 }) => {
+    const [showMenu, setShowMenu] = React.useState(false)
+
     return (
         <div className={styles.menu}>
-            <div className={styles.background} />
             <div className={styles['button__menu']}>
                 <ButtonShared style={{ padding: '20px', marginRight: '20px' }} type='button'>
                     <FaPlay fill={'#000'} />
@@ -41,7 +47,28 @@ const TrackMenu: React.FunctionComponent<ITrackMenuProps> = React.memo(({
                 />
 
                 <div className={styles.setting}>
-                    <ThreeDots style={{ width: 30, height: 25 }} />
+                    <ThreeDots style={{ width: 30, height: 25 }}
+                        onClick={() => setShowMenu(!showMenu)}
+                    />
+                    {showMenu
+                        && <ContextMenu style={{ top: 0, right: 30 }}
+                            setShowMenu={setShowMenu}
+                            showMenu={showMenu}
+                        >
+                            <ButtonMenu icon={<BsPerson />}
+                                onClick={() => { }}
+                                text='Удалить из профиля'
+                            />
+                            <ButtonMenu icon={<MdDeleteOutline />}
+                                onClick={() => { }}
+                                text='Удалить плейлист'
+                            />
+                            <ButtonMenu icon={<GoPencil />}
+                                onClick={() => { }}
+                                text='Изменение сведений'
+                            />
+                        </ContextMenu>
+                    }
                 </div>
             </div>
         </div>

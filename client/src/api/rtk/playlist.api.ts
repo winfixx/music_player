@@ -69,8 +69,8 @@ export const playlistApi = api.injectEndpoints({
             }),
             providesTags: ['PlaylistUpdate']
         }),
-        getPlaylistsFromLibrary: build.query({
-            query: () => ({
+        getPlaylistsFromLibrary: build.query<any, {userId: number}>({
+            query: ({userId, }) => ({
                 url: `/${PLAYLIST_ROUTE}/library?ds=sd`,
                 method: 'GET'
             }),

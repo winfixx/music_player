@@ -5,17 +5,22 @@ interface IButtonMenuProps {
     onClick: (() => void) | undefined
     text: string
     icon: React.ReactNode
+    unwrap?: React.ReactNode
 }
 
 const ButtonMenu: React.FunctionComponent<IButtonMenuProps> = ({
     onClick,
     text,
-    icon
+    icon,
+    unwrap
 }) => {
     return (
         <button className={styles.button} onClick={onClick}>
-            {icon}
-            <span>{text}</span>
+            <div>
+                {icon}
+                <span>{text}</span>
+            </div>
+            {unwrap}
         </button>
     )
 }
