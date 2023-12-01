@@ -1,73 +1,120 @@
 import * as React from 'react'
+import { MdClear } from 'react-icons/md'
+import { TypeSearchingInLibrary } from '../../../api/rtk/library.api'
+import { Library } from '../../../types/LibraryPlaylist.type'
 import ButtonLayout from '../../button/button-layout/ButtonLayout'
 import styles from './Filter.module.scss'
-import { MdClear } from 'react-icons/md'
 
 interface FilterProps {
+    titlePlaylist: Library['playlists'] | undefined
+    titleAlbum: Library['albums'] | undefined
+    type: FilterType
+    setType: (args: FilterType) => void
+    name: string
+    setName: (args: string) => void
 }
 
-const filter: Array<string> = [
-    'Плейлисты',
-    'Альбомы'
+export interface FilterType {
+    title: string
+    type: TypeSearchingInLibrary
+}
+
+const filterType: Array<FilterType> = [
+    { title: 'Плейлисты', type: 'playlist' },
+    { title: 'Альбомы', type: 'album' }
 ]
 
-const artists: Array<string> = [
-    'by Spotify',
-    'by Cocojambo',
-    'by Cocoj',
-    'by jambo',
-]
+const Filter: React.FC<FilterProps> = React.memo(({
+    titleAlbum,
+    titlePlaylist,
+    setType,
+    type,
+    name,
+    setName
+}) => {
+    const [titlePlaylistPreview, setTitlePlaylistPreview] = React.useState(titlePlaylist)
+    const [titleAlbumPreview, setTitleAlbumPreview] = React.useState(titleAlbum)
 
-const Filter: React.FC<FilterProps> = React.memo(() => {
-    const [type, setType] = React.useState('')
-    const [artistName, setArtistName] = React.useState('')
-    const [artist, setArtist] = React.useState(artists)
+    React.useEffect(() => {
+        setTitleAlbumPreview(titleAlbum)
+        setTitlePlaylistPreview(titlePlaylist)
+    }, [titleAlbum, titlePlaylist])
 
-    const onSelect = React.useCallback((artistSelected: string) => {
-        if (artistName) {
-            setArtistName('')
-            setArtist(artists)
+    const onSelectPlaylist = React.useCallback((namePlaylist: string) => {
+        if (name) {
+            setName('')
+            setTitlePlaylistPreview(titlePlaylist)
             return
         }
 
-        setArtist((artists.filter(artistName => artistName === artistSelected)))
-        setArtistName(artistSelected)
+        setName(namePlaylist)
+        setTitlePlaylistPreview(titlePlaylistPreview?.filter(({ playlist }) => playlist.name === namePlaylist))
         return
-    }, [artist, artistName])
+    }, [titlePlaylistPreview, name])
+
+    const onSelectAlbum = React.useCallback((nameAlbum: string) => {
+        if (name) {
+            setName('')
+            setTitleAlbumPreview(titleAlbumPreview)
+            return
+        }
+
+        setName(nameAlbum)
+        setTitleAlbumPreview(titleAlbumPreview?.filter(({ album }) => album.name === nameAlbum))
+        return
+    }, [titleAlbumPreview, name])
+
+    const onSelectType = ({ title, type: typeSelect }: FilterType) => {
+        if (type.type) {
+            setType({ title: '', type: undefined })
+        }
+
+        setType({ title, type: typeSelect })
+    }
 
     return (
         <div className={styles.filter}>
-            {type
-                ? <div className={styles.list}>
-                    <ButtonLayout onClick={() => setType('')}
-                        clear={true}
-                    >
-                        {<MdClear />}
-                    </ButtonLayout>
-                    <ButtonLayout onClick={() => setType('')}
-                        activeType={true}
-                    >
-                        {type}
-                    </ButtonLayout>
-                    {artist.map(artistName =>
-                        <ButtonLayout key={artistName}
-                            onClick={() => onSelect(artistName)}
-                            activeTitle={artist.length === 1 ? true : false}
+            <div className={styles.list}>
+                {type.title
+                    ? <>
+                        <ButtonLayout onClick={() => onSelectType({ title: '', type: undefined })}
+                            clear={true}
                         >
-                            {artistName}
+                            {<MdClear />}
                         </ButtonLayout>
-                    )}
-                </div>
-                : <div className={styles.list}>
-                    {filter.map(item =>
-                        <ButtonLayout key={item}
-                            onClick={() => setType(item)}
+                        <ButtonLayout onClick={() => onSelectType({ title: '', type: undefined })}
+                            activeType={true}
                         >
-                            {item}
+                            {type.title}
                         </ButtonLayout>
-                    )}
-                </div>
-            }
+                        {type.type === 'playlist'
+                            ? titlePlaylistPreview?.map(({ id, playlist }) =>
+                                <ButtonLayout key={id}
+                                    onClick={() => onSelectPlaylist(playlist.name)}
+                                    activeTitle={titlePlaylistPreview.length === 1 ? true : false}
+                                >
+                                    {playlist.name}
+                                </ButtonLayout>
+                            )
+                            : titleAlbumPreview?.map(({ id, album }) =>
+                                <ButtonLayout key={id}
+                                    onClick={() => onSelectAlbum(album.name)}
+                                    activeTitle={titleAlbumPreview.length === 1 ? true : false}
+                                >
+                                    {album.name}
+                                </ButtonLayout>
+                            )
+                        }
+                    </>
+                    : filterType.map(({ title, type }) =>
+                        <ButtonLayout key={type}
+                            onClick={() => onSelectType({ title, type })}
+                        >
+                            {title}
+                        </ButtonLayout>
+                    )
+                }
+            </div>
         </div>
     )
 })

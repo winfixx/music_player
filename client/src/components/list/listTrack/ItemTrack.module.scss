@@ -12,8 +12,9 @@
   padding: 0 16px;
   transform: translateY(0);
   opacity: 0;
-  animation: renderTrack 0.1s linear forwards;
+  border-radius: 4px;
 
+  animation: renderTrack 0.1s linear forwards;
   @keyframes renderTrack {
     from {
       opacity: 0;
@@ -23,6 +24,10 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  &:hover {
+    background-color: #1f1f1f;
   }
 
   a {

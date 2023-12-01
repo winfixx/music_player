@@ -18,7 +18,7 @@ export const albumApi = api.injectEndpoints({
                     userId
                 }
             }),
-            invalidatesTags: ['Album']
+            invalidatesTags: ['Library']
         }),
         addTrackInAlbum: build.mutation<unknown, Pick<AlbumArgs, 'albumId' | 'userId'>>({
             query: () => ({
@@ -30,6 +30,12 @@ export const albumApi = api.injectEndpoints({
             }),
             invalidatesTags: ['AlbumUpdate']
         }),
+        updateAlbum: build.mutation({
+            query: () => ({
+                url: ''
+            }),
+            invalidatesTags: ['Library', 'AlbumUpdate']
+        }),
         addAlbumInLibrary: build.mutation<unknown, Pick<AlbumArgs, 'albumId' | 'userId'>>({
             query: ({ albumId, userId }) => ({
                 url: `/${ALBUM_ROUTE}/add-library`,
@@ -39,7 +45,7 @@ export const albumApi = api.injectEndpoints({
                     userId
                 }
             }),
-            invalidatesTags: ['Album', 'AlbumUpdate']
+            invalidatesTags: ['Library', 'AlbumUpdate']
         }),
         deleteTrackFromAlbum: build.mutation<unknown, any>({
             query: () => ({
@@ -49,11 +55,11 @@ export const albumApi = api.injectEndpoints({
             invalidatesTags: ['AlbumUpdate']
         }),
         deleteAlbumFromLibrary: build.mutation<unknown, Pick<AlbumArgs, 'albumId' | 'userId'>>({
-            query: ({albumId, userId}) => ({
+            query: ({ albumId, userId }) => ({
                 url: `/${ALBUM_ROUTE}/delete-album?albumId=${albumId}&userId=${userId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['Album', 'AlbumUpdate']
+            invalidatesTags: ['Library', 'AlbumUpdate']
         }),
         getOneAlbum: build.query<Album, Pick<AlbumArgs, 'albumId' | 'userId'>>({
             query: ({ albumId, userId }) => ({
@@ -61,13 +67,6 @@ export const albumApi = api.injectEndpoints({
                 method: 'GET'
             }),
             providesTags: ['AlbumUpdate']
-        }),
-        getAlbumFromLibrary: build.query({
-            query: () => ({
-                url: `/${ALBUM_ROUTE}/library?ds=sd`,
-                method: 'GET'
-            }),
-            providesTags: ['Album']
-        }),
+        })
     })
 })

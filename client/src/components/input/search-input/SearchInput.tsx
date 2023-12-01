@@ -1,8 +1,8 @@
 import * as React from 'react'
-import styles from './SearchInput.module.scss'
-import { RiSearchLine } from 'react-icons/ri'
 import { MdClear } from 'react-icons/md'
+import { RiSearchLine } from 'react-icons/ri'
 import useDebounce from '../../../hooks/useDebounce'
+import styles from './SearchInput.module.scss'
 
 interface SearchProps {
     style?: React.CSSProperties,
@@ -21,10 +21,8 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(({
     const debounce = useDebounce<string, number>(searchData, 500)
 
     React.useEffect(() => {
-        if (debounce) {
-            handleSearch(debounce)
-        }
-    }, [debounce])
+        handleSearch(debounce)
+    }, [debounce, searchData])
 
     return (
         <div className={styles.search}>
@@ -38,13 +36,13 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(({
             />
 
             <div className={styles.icons__search}>
-                <span>{<RiSearchLine size={20} />}</span>
+                <span>{<RiSearchLine />}</span>
             </div>
 
             {searchData
                 && <div className={styles['clear__input-search']}>
                     <span onClick={() => setSearchData('')} >
-                        {<MdClear size={20} />}
+                        {<MdClear />}
                     </span>
                 </div>
             }

@@ -1,13 +1,38 @@
 .layout {
-    height: 100%;
-    border-radius: 10px;
-    background-color: #121212;
-    padding: 15px;
-    height: 100%;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  border-radius: 10px;
+  background-color: #121212;
+  height: 100%;
 
+  .content {
+    padding: 0 10px 10px;
+    overflow-y: scroll;
 
-      .content {
-        .list {
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background: #3b3b3b;
+    }
+    &::-webkit-scrollbar-track {
+      background: #121212;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+
+      .list__div {
+        &:hover {
+          cursor: pointer;
+          border-radius: 4px;
+          background-color: #1f1f1f;
         }
       }
+    }
   }
+}

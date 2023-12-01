@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { GRID_TEMPLATE_FOR_RECOMMENDATIONS } from '../../../constants/constants'
+import { GRID_TEMPLATE_FOR_RECOMMENDATIONS, TRACK_ROUTE } from '../../../constants/constants'
+import { PickIdsPlaylistArgs } from '../../../types/PlaylistArgs.type'
 import { Track } from '../../../types/Track.type'
+import AvatarTitle from '../../avatarTitle/AvatarTitle'
 import ButtonShared from '../../button/button-shared/ButtonShared'
 import ItemTrack from './ItemTrack'
 import ListTrack from './ListTrack'
 import AlbumName from './partsItemTrack/AlbumName'
-import AvatarTitleAuthor from './partsItemTrack/AvatarTitleAuthor'
-import { PickIdsPlaylistArgs } from '../../../types/PlaylistArgs.type'
 
-interface ListTrackForRecommendations extends PickIdsPlaylistArgs{
+interface ListTrackForRecommendations extends PickIdsPlaylistArgs {
     tracks: Track[] | undefined
     addTrackInLibrary: (args: PickIdsPlaylistArgs) => Promise<unknown> | void
 }
@@ -28,11 +28,15 @@ const ListTrackForRecommendations: React.FunctionComponent<ListTrackForRecommend
                         animationDelay: `.${index}s`,
                     }}
                 >
-                    <AvatarTitleAuthor avatarTrack={track.avatar}
-                        nameAuthorTrack={track.author.name}
-                        nameTrack={track.name}
+                    <AvatarTitle avatar={track.avatar}
+                        nameAuthor={track.author.name}
+                        name={track.name}
+                        idAuthor={track.author.id}
+                        pathToTitle={`/${TRACK_ROUTE}/${track.id}`}
                     />
-                    <AlbumName nameAlbumTrack={track.album?.name} />
+                    <AlbumName nameAlbumTrack={track.album?.name}
+                        idAlbum={track.album?.id}
+                    />
                     <ButtonShared type='submit'
                         onClickButton={async () => await addTrackInLibrary({ userId: userId, playlistId: playlistId, trackId: track.id })}
                         style={{ color: '#fff', background: 'none', border: '1px solid #1ed760', fontSize: '14px' }}

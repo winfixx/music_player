@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 import Home from './page/home/Home'
-import { ALBUM_ROUTE, LOGIN_ROUTE, PLAYLIST_ROUTE, REGISTRATION_ROUTE, SEARCH_ROUTE } from './constants/constants'
+import { ALBUM_ROUTE, LOGIN_ROUTE, PLAYLIST_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE, SEARCH_ROUTE, TRACK_ROUTE } from './constants/constants'
+import Profile from './page/profile/Profile'
 
 const Authorization = lazy(() => import('./page/authorization/Authorization'))
 const Search = lazy(() => import('./page/search/Search'))
@@ -24,6 +25,15 @@ export const routeIsAuth = [
         path: `/${ALBUM_ROUTE}/:albumId`,
         Element: Album
 
+    },
+    {
+        path: `/${PROFILE_ROUTE}/:userId`,
+        Element: Profile
+
+    },
+    {
+        path: `/${TRACK_ROUTE}/:trackId`,
+        Element: ''
     },
 ]
 

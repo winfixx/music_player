@@ -2,8 +2,8 @@
   display: flex;
   width: 100%;
   margin-top: 18px;
-  margin-bottom: 10px;
-  padding-bottom: 5px;
+  margin-bottom: 5px;
+  padding: 0 15px 5px;
 
   user-select: none;
 
@@ -25,22 +25,5 @@
     align-items: center;
 
     border-radius: 5px;
-  }
-
-  .list-enter {
-    transform: translateX(-50px);
-  }
-  .list-exit {
-    transform: translateX(0);
-  }
-  .list-enter-active {
-    transform: translateX(0);
-  }
-  .list-exit-active {
-    transform: translateX(-50px);
-  }
-  .list-enter-active,
-  .list-exit-active {
-    transition: opacity 500ms;
   }
 }

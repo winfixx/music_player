@@ -5,58 +5,42 @@
   overflow-x: hidden;
 
   > div {
-    position: relative;
     display: flex;
     height: 34px;
 
-    .button {
+    .open_button {
       display: flex;
       align-items: center;
-      padding: 6px;
-      border-radius: 8px;
+      padding: 8px;
+      border-radius: 50%;
 
-      transition: background-color 0.15s;
+      > svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      transition: background-color 0.1s, fill 0.1s;
       &:hover {
         cursor: pointer;
         background-color: #232323;
-      }
-
-      &.active {
-        background-color: #232323;
-        border-radius: 8px 0 0 8px;
+        > svg {
+          fill: #fff;
+        }
       }
     }
-    .input-search {
-      font-size: 15px;
-      background: #232323;
-      border: none;
-      border-radius: 0 8px 8px 0;
-      padding-right: 30px;
 
-      &:focus {
-        outline: none;
-      }
+    .search__input {
+      width: 190px;
+      animation: openSearch 0.2s ease-in-out;
     }
-    .input-search:focus {
-      outline: none;
-    }
-
-    .clear-search {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      top: 4px;
-      right: 3px;
-      width: 24px;
-      height: 24px;
-      &:hover {
-        cursor: pointer;
+    @keyframes openSearch {
+      0% {
+        opacity: 0;
+        width: 36px;
       }
-
-      svg {
-        width: 100%;
-        height: 100%;
+      100% {
+        opacity: 1;
+        width: 190px;
       }
     }
   }

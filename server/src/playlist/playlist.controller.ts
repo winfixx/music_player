@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { PlaylistService } from './playlist.service'
 import { CreatePlaylistArgsDto } from './dto/CreatePlaylistArgs.dto'
+import { JwtAuthGuard } from 'src/auth/jwt-auth.gurad'
 
 @Controller('playlist')
 // @UseGuards(JwtAuthGuard)

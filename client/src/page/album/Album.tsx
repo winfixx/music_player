@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { ErrorResponse, useParams } from 'react-router-dom'
 import { albumApi } from '../../api/rtk/album.api'
+import { playlistApi } from '../../api/rtk/playlist.api'
 import FieldDescriptionTrack from '../../components/fieldDescriptionTrack/FieldDescriptionTrack'
 import Heading from '../../components/heading/Heading'
 import ListTrackForAlbum from '../../components/list/listTrack/ListTrackForAlbum'
@@ -13,7 +14,6 @@ import updateAlbumThunk from '../../redux/actions/updateAlbumThunk'
 import { modalAction } from '../../redux/reducers/modalSlice'
 import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
 import styles from './Album.module.scss'
-import { playlistApi } from '../../api/rtk/playlist.api'
 
 const Album: React.FunctionComponent = () => {
     const [showModal, setShowModal] = React.useState(false)
@@ -25,7 +25,8 @@ const Album: React.FunctionComponent = () => {
     const [errorChangeInfo, setErrorChangeInfo] = React.useState('')
     const { albumId } = useParams()
     const { user } = useAppSelector(state => state.userReducer)
-    const { data: dataAlbum, refetch, error: errorAlbum, isError: isErrorAlbum } = albumApi.useGetOneAlbumQuery({ albumId, userId: user.id })
+    const { data: dataAlbum, refetch: refetchAlbum, error: errorAlbum, isError: isErrorAlbum } = albumApi.useGetOneAlbumQuery({ albumId, userId: user.id })
+    const [updateAlbum] = albumApi.useUpdateAlbumMutation()
     const [addAlbumInLibrary] = albumApi.useAddAlbumInLibraryMutation()
     const [deleteAlbumFromLibrary] = albumApi.useDeleteAlbumFromLibraryMutation()
     const [addTrackInPlaylist] = playlistApi.useAddTrackInPlaylistMutation()
@@ -66,9 +67,10 @@ const Album: React.FunctionComponent = () => {
         formData.append('name', String(infos.name))
         formData.append('deleteAvatar', String(infos.deleteAvatar))
 
+        await updateAlbum(null)
         await dispatch(updateAlbumThunk(formData))
             .unwrap()
-            .then(() => refetch())
+            .then(() => refetchAlbum())
             .catch(e => {
                 actionsModal.onOpenModal(null)
                 actionsModal.addErrorMessage({ message: (e as ErrorResponse)?.data?.message })
@@ -111,7 +113,7 @@ const Album: React.FunctionComponent = () => {
                     gridTemplateColumns={GRID_TEMPLATE_FOR_ALBUM}
                 />
                 {dataAlbum?.tracks.length
-                    ? <ListTrackForAlbum tracks={dataAlbum.tracks} 
+                    ? <ListTrackForAlbum tracks={dataAlbum.tracks}
                         addInPlaylist={addTrackInPlaylist}
                         deleteFromPlaylist={deleteTrackFromPlaylist}
                         userId={user.id}

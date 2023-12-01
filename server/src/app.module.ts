@@ -9,6 +9,9 @@ import { AuthModule } from './auth/auth.module'
 import { CloudinaryModule } from './cloudinary/cloudinary.module'
 import { FilesModule } from './files/files.module'
 import { GenreModule } from './genre/genre.module'
+import { LibraryController } from './library/library.controller'
+import { LibraryModule } from './library/library.module'
+import { LibraryService } from './library/library.service'
 import { MailModule } from './mail/mail.module'
 import { PlaylistModule } from './playlist/playlist.module'
 import { getSequelizeConfig } from './sequelize.config'
@@ -37,6 +40,7 @@ import { UserModule } from './user/user.module'
         GenreModule,
         AlbumModule,
         FilesModule,
+        LibraryModule,
     ]
 })
 export class AppModule {

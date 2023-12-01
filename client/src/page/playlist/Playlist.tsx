@@ -27,7 +27,8 @@ const Playlist: React.FC = () => {
     const [errorChangeInfo, setErrorChangeInfo] = React.useState('')
     const { playlistId } = useParams()
     const { user } = useAppSelector(state => state.userReducer)
-    const { data: dataPlaylist, refetch, isError: isErrorPlaylist, error: errorPlaylist } = playlistApi.useGetOnePlaylistQuery({ playlistId, userId: user.id })
+    const { data: dataPlaylist, refetch: refetchPlaylist, isError: isErrorPlaylist, error: errorPlaylist } = playlistApi.useGetOnePlaylistQuery({ playlistId, userId: user.id })
+    const [updatePlaylist] = playlistApi.useUpdatePlaylistMutation()
     const [addPlaylistInLibrary] = playlistApi.useAddPlaylistInLibraryMutation()
     const [deletePlaylistFromLibrary] = playlistApi.useDeletePlaylistFromLibraryMutation()
     const [addTrackInLibrary] = playlistApi.useAddTrackInPlaylistMutation()
@@ -71,9 +72,10 @@ const Playlist: React.FC = () => {
         formData.append('name', String(infos.name))
         formData.append('deleteAvatar', String(infos.deleteAvatar))
 
+        await updatePlaylist(null)
         await dispatch(updatePlaylistThunk(formData))
             .unwrap()
-            .then(() => refetch())
+            .then(() => refetchPlaylist())
             .catch(e => {
                 actionsModal.onOpenModal(null)
                 actionsModal.addErrorMessage({ message: (e as ErrorResponse)?.data?.message })
@@ -143,7 +145,6 @@ const Playlist: React.FC = () => {
                         />
                     }
                 </>
-
             }
         </>
     )

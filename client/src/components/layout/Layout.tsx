@@ -11,11 +11,8 @@ import WelcomeModal from '../modals/welcomeModal/WelcomeModal'
 import MusicPlayer from '../music-player/MusicPlayer'
 import Navbar from '../navbar/Navbar'
 import styles from './Layout.module.scss'
-import Filter from './filter/Filter'
-import Navigation from './navigation/Navigation'
-import SearchLibrary from './searchLibrary/SearchLibrary'
-import Setting from './setting/Setting'
 import Library from './library/Library'
+import Navigation from './navigation/Navigation'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -47,8 +44,6 @@ const Layout: React.FC<LayoutProps> = React.memo(({
 
   return (
     <div className={styles.container}>
-      <Navigation />
-
       {isOpen
         && <Modal error={isError}
           onClickButton={() => actionsModal.onCloseModal(null)}
@@ -68,6 +63,8 @@ const Layout: React.FC<LayoutProps> = React.memo(({
           onSubmitPreferences={onSubmitPreferences}
         />
       }
+
+      <Navigation />
 
       <section onScroll={handleScroll} className={styles.main}>
         <Navbar opacity={opacity} />

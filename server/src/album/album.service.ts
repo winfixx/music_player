@@ -26,9 +26,9 @@ export class AlbumService {
         userId: number
     ) {
         const user = await this.userService.findUserById(userId)
-        if (!user) throw new UnauthorizedException('Зарегистрируйтесь')
+        if (!user) throw new UnauthorizedException('Пользователь не авторизован')
 
-        const album = await this.albumRepository.create({ name: `Мой альбом №${user.countOwnAlbum}`, authorId: userId })
+        const album = await this.albumRepository.create({ name: `Мой альбом №${user.countOwnAlbum}`, authorId: user.id })
         await this.libraryAlbumRepository.create({ userId, albumId: album.id })
 
         await user.update({ countOwnAlbum: user.countOwnAlbum + 1 })

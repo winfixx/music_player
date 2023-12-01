@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { GRID_TEMPLATE_FOR_ALBUM } from '../../../constants/constants'
+import { GRID_TEMPLATE_FOR_ALBUM, TRACK_ROUTE } from '../../../constants/constants'
 import { PickIdsPlaylistArgs } from '../../../types/PlaylistArgs.type'
 import { Track } from '../../../types/Track.type'
+import AvatarTitle from '../../avatarTitle/AvatarTitle'
 import ItemTrack from './ItemTrack'
 import ListTrack from './ListTrack'
-import AvatarTitleAuthor from './partsItemTrack/AvatarTitleAuthor'
 import IndexTrack from './partsItemTrack/IndexTrack'
 import TimeTrack from './partsItemTrack/TImeTrack'
 
@@ -31,9 +31,11 @@ const ListTrackForAlbum: React.FunctionComponent<ListTrackForAlbum> = React.memo
                     }}
                 >
                     <IndexTrack index={index} />
-                    <AvatarTitleAuthor avatarTrack={track.avatar}
-                        nameAuthorTrack={track.author.name}
-                        nameTrack={track.name}
+                    <AvatarTitle avatar={track.avatar}
+                        nameAuthor={track.author.name}
+                        name={track.name}
+                        idAuthor={track.author.id}
+                        pathToTitle={`/${TRACK_ROUTE}/${track.id}`}
                     />
                     <TimeTrack time={'time'}
                         userId={userId}

@@ -18,7 +18,6 @@ export class PlaylistService {
     constructor(
         @InjectModel(Playlist) private readonly playlistRepository: typeof Playlist,
         @InjectModel(LibraryPlaylist) private readonly libraryPlaylistRepository: typeof LibraryPlaylist,
-        @InjectModel(Track) private readonly trackRepository: typeof Track,
         @InjectModel(PlaylistTrack) private readonly playlistTrackRepository: typeof PlaylistTrack,
         private readonly userService: UserService,
         private readonly filesService: FilesService
@@ -30,7 +29,7 @@ export class PlaylistService {
         userId: number
     ): Promise<any> {
         const user = await this.userService.findUserById(userId)
-        if (!user) throw new UnauthorizedException('Зарегистрируйтесь')
+        if (!user) throw new UnauthorizedException('Пользователь не авторизован')
 
         const playlist = await this.playlistRepository.create({ name: `Мой плейлист №${user.countOwnPlaylist}`, authorId: userId })
         await this.addPlaylistInLibrary({ userId: user.id, playlistId: playlist.id })
@@ -73,7 +72,7 @@ export class PlaylistService {
     ) {
         console.log(trackId, playlistId, userId)
         const user = await this.userService.findUserById(userId)
-        if (!user) throw new UnauthorizedException('Зарегистрируйтесь')
+        if (!user) throw new UnauthorizedException('Пользователь не авторизован')
 
         if (!playlistId) {
             const favoriteTracks = await this.playlistRepository.findOrCreate({ where: { name: this.nameFavouritePlaylist, authorId: userId } })
