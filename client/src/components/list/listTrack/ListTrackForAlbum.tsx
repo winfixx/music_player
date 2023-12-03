@@ -10,6 +10,7 @@ import TimeTrack from './partsItemTrack/TImeTrack'
 
 interface ListTrackForAlbum extends PickIdsPlaylistArgs {
     tracks: Track[] | undefined
+    authorId: number | null
     addInPlaylist: (args: PickIdsPlaylistArgs) => Promise<unknown>
     deleteFromPlaylist: (args: PickIdsPlaylistArgs) => Promise<unknown>
 }
@@ -18,6 +19,7 @@ const ListTrackForAlbum: React.FunctionComponent<ListTrackForAlbum> = React.memo
     tracks,
     userId,
     playlistId,
+    authorId,
     addInPlaylist,
     deleteFromPlaylist
 }) => {
@@ -38,13 +40,15 @@ const ListTrackForAlbum: React.FunctionComponent<ListTrackForAlbum> = React.memo
                         pathToTitle={`/${TRACK_ROUTE}/${track.id}`}
                     />
                     <TimeTrack time={'time'}
+                        albumId={track.album?.id}
                         userId={userId}
                         author={false}
                         haveInPlaylist={track?.playlists ? !!track.playlists[0]?.name : false}
                         trackId={track.id}
                         playlistId={playlistId}
+                        authorId={authorId}
                         addInPlaylist={addInPlaylist}
-                        deleteFromPlaylist={deleteFromPlaylist}
+                        deleteTrackFromPlaylist={deleteFromPlaylist}
                     />
                 </ItemTrack>
             )}

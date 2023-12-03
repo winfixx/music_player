@@ -1,7 +1,7 @@
 .container {
   display: grid;
-  grid-template-columns: minmax(280px, 22%) 2fr;
-  grid-template-rows: 110px 1fr 100px;
+  grid-template-columns: minmax(240px, 350px) minmax(410px, 2fr);
+  grid-template-rows: 110px 1fr 72px;
   grid-gap: 7px;
   height: 100%;
   padding: 7px;
@@ -31,11 +31,5 @@
       background: #121212;
       border-radius: 0 10px 10px 0;
     }
-  }
-
-  .under {
-    background-color: black;
-    grid-column-start: 1;
-    grid-column-end: 3;
   }
 }

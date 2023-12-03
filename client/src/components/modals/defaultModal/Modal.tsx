@@ -10,7 +10,7 @@ interface IModalProps {
     textButton: React.ReactNode
     titleModal: string
     onClickClear: () => void
-    onClickButton: (infos?: any) => void
+    onClickButton: ((args: any) => void | Promise<unknown>) | undefined
     error: boolean
     errorMessage?: string
     style?: React.CSSProperties

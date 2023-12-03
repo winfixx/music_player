@@ -9,7 +9,7 @@ export class FilesService {
     createFile(file): string {
         try {
             const fileName = uuid.v4() + '.jpg'
-            const filePath = path.resolve(__dirname, '..', 'static', 'image')
+            const filePath = path.resolve(__dirname, '..', '..', 'static', 'image')
 
             this.findOrCreateFile(filePath)
 
@@ -23,7 +23,7 @@ export class FilesService {
 
     removeFile(fileName: string): string {
         try {
-            const filePath = path.resolve(__dirname, '..','static', 'image', fileName)
+            const filePath = path.resolve(__dirname, '..', '..', 'static', 'image', fileName)
 
             fs.unlinkSync(filePath)
             return fileName

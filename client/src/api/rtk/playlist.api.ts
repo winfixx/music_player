@@ -25,13 +25,7 @@ export const playlistApi = api.injectEndpoints({
                     trackId
                 },
             }),
-            invalidatesTags: ['Library', 'PlaylistUpdate', 'AlbumUpdate']
-        }),
-        updatePlaylist: build.mutation({
-            query: () => ({
-                url: ''
-            }),
-            invalidatesTags: ['Library', 'PlaylistUpdate']
+            invalidatesTags: ['Library', 'PlaylistUpdate', 'AlbumUpdate', 'Track']
         }),
         addPlaylistInLibrary: build.mutation<unknown, PickIdsPlaylistArgs>({
             query: ({ playlistId, userId }) => ({
@@ -49,7 +43,7 @@ export const playlistApi = api.injectEndpoints({
                 url: `/${PLAYLIST_ROUTE}/delete-track?userId=${userId}&playlistId=${playlistId}&trackId=${trackId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['Library', 'PlaylistUpdate', 'AlbumUpdate']
+            invalidatesTags: ['Library', 'PlaylistUpdate', 'AlbumUpdate', 'Track']
         }),
         deletePlaylistFromLibrary: build.mutation<unknown, PickIdsPlaylistArgs>({
             query: ({ playlistId, userId }) => ({
@@ -57,6 +51,13 @@ export const playlistApi = api.injectEndpoints({
                 method: 'DELETE'
             }),
             invalidatesTags: ['Library', 'PlaylistUpdate']
+        }),
+        deletePlaylistFromAll: build.mutation<unknown, PickIdsPlaylistArgs>({
+            query: ({ playlistId, userId }) => ({
+                url: `/${PLAYLIST_ROUTE}/delete-playlist-everywhere?playlistId=${playlistId}&userId=${userId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Library']
         }),
         getOnePlaylist: build.query<Playlist, PickIdsPlaylistArgs>({
             query: ({ playlistId, userId }) => ({

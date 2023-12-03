@@ -65,6 +65,15 @@ export class AlbumController {
         return album
     }
 
+    @Delete('delete-album-everywhere')
+    public deleteAlbumFromAll(
+        @Query('userId') userId: string,
+        @Query('albumId') albumId: string
+    ) {
+        const album = this.albumService.deleteAlbumFromAll({ albumId, userId })
+        return album
+    }
+
     @Get(':albumId')
     public getOneAlbum(
         @Param('albumId') albumId: string,

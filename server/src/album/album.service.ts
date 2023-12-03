@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Album } from 'src/album/album.model'
 import { FilesService } from 'src/files/files.service'
@@ -40,13 +40,10 @@ export class AlbumService {
         { albumId, userId, deleteAvatar, name: newName }: Omit<CreateAlbumArgsDto, 'avatar'>,
         avatar?: File
     ) {
-        const album = await this.albumRepository.findOne({
-            where: {
-                id: albumId,
-                authorId: userId
-            }
-        })
-        if (!album) throw new BadRequestException({ message: 'Альбом не найден' })
+        const album = await this.albumRepository.findByPk(albumId)
+        if (!album) throw new BadRequestException('Альбом не найден')
+
+        if (+album.authorId !== +userId) throw new ForbiddenException('Недостаточно прав')
 
         if (avatar) {
             const newAvatar = this.filesService.createFile(avatar)
@@ -90,6 +87,23 @@ export class AlbumService {
             return true
         } catch (error) {
             throw new InternalServerErrorException('Не удалось удалить альбом из медиатеки')
+        }
+    }
+
+    public async deleteAlbumFromAll(
+        { albumId, userId }: Pick<CreateAlbumArgsDto, 'albumId' | 'userId'>
+    ) {
+        try {
+            const album = await this.albumRepository.findByPk(albumId)
+            if (album.authorId !== Number(userId)) {
+                throw new ForbiddenException('Недостаточно прав')
+            }
+
+            await album.destroy()
+            await this.deleteAlbumFromLibrary({ albumId, userId })
+            return true
+        } catch (error) {
+            throw new ForbiddenException('Недостаточно прав')
         }
     }
 
@@ -147,7 +161,7 @@ export class AlbumService {
                 ]
             }
         )
-        if (!album) throw new BadRequestException('Такого альбома не существует')
+        if (!album) throw new NotFoundException('Такого альбома не существует')
 
         return album
     }

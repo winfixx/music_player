@@ -8,10 +8,10 @@ interface IFavouriteButtonProps {
     author: boolean
     style: React.CSSProperties
     userId: number | null | undefined
-    playlistId?:  number | string | undefined | null
+    playlistId?: number | string | undefined | null
     trackId?: number | null
-    onClickDelete: (args: PickIdsPlaylistArgs) => Promise<unknown>
-    onClickAdd: (args: PickIdsPlaylistArgs) => Promise<unknown>
+    onClickDelete: ((args: PickIdsPlaylistArgs) => Promise<unknown> | void) | undefined
+    onClickAdd: ((args: PickIdsPlaylistArgs) => Promise<unknown> | void) | undefined
 }
 
 const FavouriteButton: React.FunctionComponent<IFavouriteButtonProps> = ({
@@ -28,13 +28,19 @@ const FavouriteButton: React.FunctionComponent<IFavouriteButtonProps> = ({
         <div className={styles.favourites}>
             {!author
                 ? haveInLibrary
-                    ? <button onClick={() => onClickDelete({ userId, playlistId, trackId })}
+                    ? <button onClick={() => onClickDelete
+                        ? onClickDelete({ userId, playlistId, trackId })
+                        : () => { }
+                    }
                         style={style}
                         className={`${styles.like} ${styles.haveInLibrary}`}
                     >
                         <FaHeart />
                     </button>
-                    : <button onClick={() => onClickAdd({ userId, playlistId, trackId })}
+                    : <button onClick={() => onClickAdd
+                        ? onClickAdd({ userId, playlistId, trackId })
+                        : () => { }
+                    }
                         style={style}
                         className={`${styles.like} ${styles.notInLibrary}`}
                     >

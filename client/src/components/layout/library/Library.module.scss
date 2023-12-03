@@ -4,9 +4,11 @@
   border-radius: 10px;
   background-color: #121212;
   height: 100%;
+  overflow-y: hidden;
 
   .content {
-    padding: 0 10px 10px;
+    padding: 0 10px;
+    height: calc(100% - 117px);
     overflow-y: scroll;
 
     &::-webkit-scrollbar {

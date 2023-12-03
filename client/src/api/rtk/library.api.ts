@@ -17,6 +17,12 @@ export const libraryApi = api.injectEndpoints({
                 method: 'GET'
             }),
             providesTags: ['Library']
-        })
+        }),
+        updateLibrary: build.mutation({
+            query: () => ({
+                url: ''
+            }),
+            invalidatesTags: ['Library']
+        }),
     })
 })

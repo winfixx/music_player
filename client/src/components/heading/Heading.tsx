@@ -2,6 +2,7 @@ import * as React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Avatar from '../avatar/Avatar'
 import styles from './Heading.module.scss'
+import { PROFILE_ROUTE } from '../../constants/constants'
 
 interface HeadingProps {
     heading: string
@@ -9,9 +10,12 @@ interface HeadingProps {
     name: string | undefined
     authorName: string | undefined
     createdAt: string | undefined | null
-    countTrack: number | undefined
+    countTrack?: number | undefined
+    countPlaylist?: number | undefined
+    countAlbum?: number | undefined
     userId: number | undefined | null
     authorId: number | undefined | null
+    color?: [f: string, s: string, t: string]
     onShowModal: () => void
 }
 
@@ -22,15 +26,20 @@ const Heading: React.FunctionComponent<HeadingProps> = ({
     authorName,
     createdAt,
     countTrack,
+    countAlbum,
+    countPlaylist,
     authorId,
     userId,
+    color,
     onShowModal
 }) => {
     const navigate = useNavigate()
 
     return (
         <div className={styles.under}>
-            <div className={styles.background} />
+            <div className={styles.background}
+                style={{ background: !!color?.[0] ? `rgb(${color[0]}, ${color[1]}, ${color[2]})` : '' }}
+            />
 
             <Avatar allowChange={authorId === userId}
                 avatar={avatar}
@@ -44,7 +53,7 @@ const Heading: React.FunctionComponent<HeadingProps> = ({
                 <span onClick={onShowModal} className={styles.title}>{name}</span>
                 <div className={styles['extra__info']}>
                     {authorName
-                        && <span onClick={() => navigate}><NavLink to={''}>{authorName}</NavLink></span>
+                        && <span onClick={() => navigate(`/${PROFILE_ROUTE}/${authorId}`)}><NavLink to={''}>{authorName}</NavLink></span>
                     }
                     {createdAt
                         && <>

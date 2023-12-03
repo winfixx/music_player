@@ -4,11 +4,11 @@
   border-radius: 2px;
   min-width: 180px;
   min-height: 180px;
-  
+
   z-index: 1;
   background: #282828;
-  box-shadow: 0 0 20px 10px #2c2c2c;
-  
+  box-shadow: 0 0 20px 0 #2c2c2c;
+
   .file-avatar {
     position: absolute;
     top: 0;
@@ -17,7 +17,7 @@
     right: 0;
     z-index: 1;
   }
-  
+
   .img {
     display: flex;
     justify-content: center;
@@ -109,7 +109,7 @@
       background-color: #202020;
 
       &:hover {
-        background-color: #3E3E3E;
+        background-color: #3e3e3e;
       }
     }
   }

@@ -12,15 +12,17 @@ import { TRACK_ROUTE } from '../../../constants/constants'
 
 interface ListTrackForPlaylist extends PickIdsPlaylistArgs {
     tracks: Track[] | undefined
+    authorId: number | null
     addInLibrary: (args: PickIdsPlaylistArgs) => Promise<unknown>
-    deleteFromLibrary: (args: PickIdsPlaylistArgs) => Promise<unknown>
+    deleteTrackFromLibrary: (args: PickIdsPlaylistArgs) => Promise<unknown>
 }
 
 const ListTrackForPlaylist: React.FunctionComponent<ListTrackForPlaylist> = React.memo(({
     tracks,
     userId,
+    authorId,
     addInLibrary,
-    deleteFromLibrary
+    deleteTrackFromLibrary
 }) => {
     return (
         <ListTrack>
@@ -41,11 +43,13 @@ const ListTrackForPlaylist: React.FunctionComponent<ListTrackForPlaylist> = Reac
                     <DateAddedTrack dateAddedTrackInPlaylist={track.PlaylistTrack?.createdAt} />
                     <TimeTrack time={'time'}
                         userId={userId}
+                        albumId={track.album?.id}
                         author={false}
                         trackId={track.id}
+                        authorId={authorId}
                         haveInPlaylist={track?.playlists ? !!track?.playlists[0]?.name : false}
                         addInPlaylist={addInLibrary}
-                        deleteFromPlaylist={deleteFromLibrary}
+                        deleteTrackFromPlaylist={deleteTrackFromLibrary}
                     />
                 </ItemTrack>
             )}

@@ -74,11 +74,11 @@ const Setting: React.FC = React.memo(() => {
                     </div>
 
                     <div className={styles.button}>
-                        <span onClick={() => setShowMenu(!showMenu)}>{<BsPlusLg size={22.5} />}</span>
-                        <span>{<GoArrowRight size={22.5} />}</span>
+                        <span onClick={() => setShowMenu(!showMenu)}>{<BsPlusLg />}</span>
+                        <span>{<GoArrowRight />}</span>
 
                         {showMenu
-                            && <ContextMenu style={{ top: 30, left: 0 }}
+                            && <ContextMenu style={{ top: 30, right: 0 }}
                                 setShowMenu={setShowMenu}
                                 showMenu={showMenu}
                             >

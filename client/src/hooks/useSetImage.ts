@@ -7,12 +7,14 @@ export const useSetImage = (error: string, setError: (error: string) => void) =>
     const onFileChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             setAvatarPreview(URL.createObjectURL(event.target.files[0]))
-            setAvatarAsFile(event.target.files[0])
+            if (error === '') {
+                setAvatarAsFile(event.target.files[0])
+            }
         }
     }, [])
 
-    React.useMemo(() => {
-        if (!error) {
+    React.useEffect(() => {
+        if (error === '') {
             return
         }
         setAvatarAsFile(undefined)

@@ -30,12 +30,6 @@ export const albumApi = api.injectEndpoints({
             }),
             invalidatesTags: ['AlbumUpdate']
         }),
-        updateAlbum: build.mutation({
-            query: () => ({
-                url: ''
-            }),
-            invalidatesTags: ['Library', 'AlbumUpdate']
-        }),
         addAlbumInLibrary: build.mutation<unknown, Pick<AlbumArgs, 'albumId' | 'userId'>>({
             query: ({ albumId, userId }) => ({
                 url: `/${ALBUM_ROUTE}/add-library`,
@@ -60,6 +54,13 @@ export const albumApi = api.injectEndpoints({
                 method: 'DELETE'
             }),
             invalidatesTags: ['Library', 'AlbumUpdate']
+        }),
+        deleteAlbumFromAll: build.mutation<unknown, Pick<AlbumArgs, 'albumId' | 'userId'>>({
+            query: ({ albumId, userId }) => ({
+                url: `/${ALBUM_ROUTE}/delete-album-everywhere?albumId=${albumId}&userId=${userId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Library']
         }),
         getOneAlbum: build.query<Album, Pick<AlbumArgs, 'albumId' | 'userId'>>({
             query: ({ albumId, userId }) => ({

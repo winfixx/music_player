@@ -1,18 +1,21 @@
 import * as React from 'react'
-import { ErrorResponse, useParams } from 'react-router-dom'
+import { ColorExtractor } from 'react-color-extractor'
+import { ErrorResponse, useNavigate, useParams } from 'react-router-dom'
 import { albumApi } from '../../api/rtk/album.api'
+import { libraryApi } from '../../api/rtk/library.api'
 import { playlistApi } from '../../api/rtk/playlist.api'
 import FieldDescriptionTrack from '../../components/fieldDescriptionTrack/FieldDescriptionTrack'
 import Heading from '../../components/heading/Heading'
 import ListTrackForAlbum from '../../components/list/listTrack/ListTrackForAlbum'
 import ChangeInfoModal from '../../components/modals/changeInfoModal/ChangeInfoModal'
 import TrackMenu from '../../components/trackMenu/TrackMenu'
-import { GRID_TEMPLATE_FOR_ALBUM } from '../../constants/constants'
+import { GRID_TEMPLATE_FOR_ALBUM, SERVER_API } from '../../constants/constants'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useActionCreators } from '../../hooks/useActionCreators'
 import updateAlbumThunk from '../../redux/actions/updateAlbumThunk'
 import { modalAction } from '../../redux/reducers/modalSlice'
 import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
+import { useSetColor } from '../../types/useSetColor'
 import styles from './Album.module.scss'
 
 const Album: React.FunctionComponent = () => {
@@ -26,14 +29,20 @@ const Album: React.FunctionComponent = () => {
     const { albumId } = useParams()
     const { user } = useAppSelector(state => state.userReducer)
     const { data: dataAlbum, refetch: refetchAlbum, error: errorAlbum, isError: isErrorAlbum } = albumApi.useGetOneAlbumQuery({ albumId, userId: user.id })
-    const [updateAlbum] = albumApi.useUpdateAlbumMutation()
     const [addAlbumInLibrary] = albumApi.useAddAlbumInLibraryMutation()
     const [deleteAlbumFromLibrary] = albumApi.useDeleteAlbumFromLibraryMutation()
+    const [deleteTrackFromAll, { isSuccess: isSuccessDeleteAlbum }] = albumApi.useDeleteAlbumFromAllMutation()
     const [addTrackInPlaylist] = playlistApi.useAddTrackInPlaylistMutation()
     const [deleteTrackFromPlaylist] = playlistApi.useDeleteTrackFromPlaylistMutation()
-
+    const [updateLibrary] = libraryApi.useUpdateLibraryMutation()
     const actionsModal = useActionCreators(modalAction)
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const { color, onSetColor } = useSetColor(dataAlbum?.avatar)
+
+    React.useEffect(() => {
+        if (isSuccessDeleteAlbum) navigate('/')
+    }, [isSuccessDeleteAlbum])
 
     React.useEffect(() => {
         if (dataAlbum?.name) setInfos({ ...infos, name: dataAlbum.name })
@@ -67,10 +76,12 @@ const Album: React.FunctionComponent = () => {
         formData.append('name', String(infos.name))
         formData.append('deleteAvatar', String(infos.deleteAvatar))
 
-        await updateAlbum(null)
         await dispatch(updateAlbumThunk(formData))
             .unwrap()
-            .then(() => refetchAlbum())
+            .then(async () => {
+                await refetchAlbum()
+                await updateLibrary(null)
+            })
             .catch(e => {
                 actionsModal.onOpenModal(null)
                 actionsModal.addErrorMessage({ message: (e as ErrorResponse)?.data?.message })
@@ -81,6 +92,11 @@ const Album: React.FunctionComponent = () => {
 
     return (
         <>
+            <ColorExtractor
+                rgb
+                src={`${SERVER_API}/image/${dataAlbum?.avatar}`}
+                getColors={onSetColor}
+            />
             {showModal
                 && <ChangeInfoModal avatar={dataAlbum?.avatar}
                     infos={infos}
@@ -100,12 +116,21 @@ const Album: React.FunctionComponent = () => {
                 authorId={dataAlbum?.author.id}
                 userId={user.id}
                 onShowModal={onShowModal}
+                color={color}
             />
 
             <TrackMenu haveInLibrary={dataAlbum?.usersLibrary ? dataAlbum?.usersLibrary[0]?.id === user.id : false}
                 author={dataAlbum?.author.id === user.id}
+                authorId={dataAlbum?.author?.id}
+                type='альбом'
+                userId={user.id}
                 addInLibrary={async () => await addAlbumInLibrary({ albumId: dataAlbum?.id, userId: user.id })}
                 deleteFromLibrary={async () => await deleteAlbumFromLibrary({ albumId: dataAlbum?.id, userId: user.id })}
+                deleteFromAll={async () => await deleteTrackFromAll({ albumId: dataAlbum?.id, userId: user.id })}
+                showChangeInfoModal={showModal}
+                setShowChangeInfoModal={setShowModal}
+                color={color}
+                deleteFrom='медиатеки'
             />
 
             <div className={styles.content__track}>
@@ -114,6 +139,7 @@ const Album: React.FunctionComponent = () => {
                 />
                 {dataAlbum?.tracks.length
                     ? <ListTrackForAlbum tracks={dataAlbum.tracks}
+                        authorId={dataAlbum.author?.id}
                         addInPlaylist={addTrackInPlaylist}
                         deleteFromPlaylist={deleteTrackFromPlaylist}
                         userId={user.id}

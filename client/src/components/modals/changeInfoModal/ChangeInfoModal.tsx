@@ -32,7 +32,7 @@ const ChangeInfoModal: React.FunctionComponent<IChangeInfoModalProps> = ({
         if (error === '') {
             setInfos({ ...infos, avatar: avatarAsFile, deleteAvatar: false })
         }
-    }, [avatarPreview, avatarAsFile])
+    }, [avatarPreview, avatarAsFile, error])
 
     const onDeleteAvatar = React.useCallback(() => {
         setInfos({...infos, avatar: undefined, deleteAvatar: true})

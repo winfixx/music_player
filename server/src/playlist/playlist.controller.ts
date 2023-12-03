@@ -1,11 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { PlaylistService } from './playlist.service'
 import { CreatePlaylistArgsDto } from './dto/CreatePlaylistArgs.dto'
-import { JwtAuthGuard } from 'src/auth/jwt-auth.gurad'
+import { PlaylistService } from './playlist.service'
 
 @Controller('playlist')
-// @UseGuards(JwtAuthGuard)
 export class PlaylistController {
 
     constructor(
@@ -63,6 +61,15 @@ export class PlaylistController {
         @Query('playlistId') playlistId: string
     ) {
         const playlist = this.playlistService.deletePlaylistFromLibrary({ playlistId, userId })
+        return playlist
+    }
+
+    @Delete('delete-playlist-everywhere')
+    public deletePlaylistFromAll(
+        @Query('userId') userId: string,
+        @Query('playlistId') playlistId: string
+    ) {
+        const playlist = this.playlistService.deletePlaylistFromAll({ playlistId, userId })
         return playlist
     }
 

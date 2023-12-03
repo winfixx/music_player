@@ -48,12 +48,11 @@ const Avatar: React.FunctionComponent<IAvatarProps> = React.memo(({
                     <input id='avatar' ref={inputFileRef} type="file" onChange={onFileChange} hidden />
                 </label>
             }
-
             <div className={styles.img}>
                 {avatar
                     ? infos?.avatar
                         ? <img onLoad={onImgLoad} src={avatarPreview} alt="" />
-                        : <img src={`${SERVER_API}/image/${avatar}`} alt="" />
+                        : <img id='canvas' src={`${SERVER_API}/image/${avatar}`} alt="" />
                     : infos?.avatar
                         ? <img onLoad={onImgLoad} src={avatarPreview} alt="" />
                         : <RiMusic2Line />

@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Album } from 'src/album/album.model'
 import { FilesService } from 'src/files/files.service'
@@ -42,14 +42,10 @@ export class PlaylistService {
     public async updateInfo(
         { playlistId, userId, deleteAvatar, name: newName, avatar }: CreatePlaylistArgsDto
     ) {
-        const playlist = await this.playlistRepository.findOne({
-            where: {
-                id: playlistId,
-                authorId: userId
-            }
-        })
-
+        const playlist = await this.playlistRepository.findByPk(playlistId)
         if (!playlist) throw new BadRequestException('Плейлист не найден')
+
+        if (+playlist.authorId !== +userId) throw new ForbiddenException('Недостаточно прав')
 
         if (avatar) {
             const newAvatar = this.filesService.createFile(avatar)
@@ -70,18 +66,24 @@ export class PlaylistService {
     public async addTrackInPlaylist(
         { trackId, playlistId, userId }: Pick<CreatePlaylistArgsDto, 'userId' | 'trackId' | 'playlistId'>
     ) {
-        console.log(trackId, playlistId, userId)
         const user = await this.userService.findUserById(userId)
         if (!user) throw new UnauthorizedException('Пользователь не авторизован')
 
         if (!playlistId) {
-            const favoriteTracks = await this.playlistRepository.findOrCreate({ where: { name: this.nameFavouritePlaylist, authorId: userId } })
-            await this.playlistTrackRepository.create({ trackId: +trackId, playlistId: favoriteTracks[0].id })
+            const favoritePlaylist = await this.playlistRepository.findOrCreate({
+                where: { name: this.nameFavouritePlaylist, authorId: userId }
+            })
+            if (!favoritePlaylist?.[0].avatar) {
+                await favoritePlaylist[0].update({ avatar: 'liked-songs-300.jpg' })
+            }
+            await this.addPlaylistInLibrary({ userId, playlistId: favoritePlaylist[0].id })
+            await this.playlistTrackRepository.create({ trackId: +trackId, playlistId: favoritePlaylist[0].id })
             return true
         }
 
         const playlist = await this.playlistRepository.findByPk(playlistId)
         if (!playlist) throw new BadRequestException('Такого плейлиста не существует')
+
         await this.playlistTrackRepository.create({ trackId: +trackId, playlistId: playlist.id })
         return true
     }
@@ -125,6 +127,23 @@ export class PlaylistService {
             return true
         } catch (error) {
             throw new InternalServerErrorException('Не удалось удалить плейлист из медиатеки')
+        }
+    }
+
+    public async deletePlaylistFromAll(
+        { playlistId, userId }: Pick<CreatePlaylistArgsDto, 'playlistId' | 'userId'>
+    ) {
+        try {
+            const playlist = await this.playlistRepository.findByPk(playlistId)
+            if (playlist.authorId !== Number(userId)) {
+                throw new ForbiddenException('Недостаточно прав')
+            }
+
+            await playlist.destroy()
+            await this.deletePlaylistFromLibrary({ playlistId, userId })
+            return true
+        } catch (error) {
+            throw new ForbiddenException('Недостаточно прав')
         }
     }
 
@@ -193,7 +212,7 @@ export class PlaylistService {
 
             }
         )
-        if (!playlist) throw new BadRequestException('Такого плейлиста не существует')
+        if (!playlist) throw new NotFoundException('Такого плейлиста не существует')
 
         return playlist
     }

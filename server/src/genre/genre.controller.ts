@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
-import { GenreService } from './genre.service'
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { CreateGenreDto } from './dto/createGenreDto'
-import { JwtAuthGuard } from 'src/auth/jwt-auth.gurad'
+import { GenreService } from './genre.service'
 
 @Controller('genre')
 @UseGuards(JwtAuthGuard)

@@ -29,6 +29,12 @@ export const userApi = api.injectEndpoints({
                 method: 'GET',
             }),
             providesTags: ['User']
+        }),
+        getOneProfile: build.query<any, { userId: string }>({
+            query: ({ userId }) => ({
+                url: `/user/${userId}`,
+                method: 'GET',
+            })
         })
     })
 })

@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import Home from './page/home/Home'
 import { ALBUM_ROUTE, LOGIN_ROUTE, PLAYLIST_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE, SEARCH_ROUTE, TRACK_ROUTE } from './constants/constants'
 import Profile from './page/profile/Profile'
+import TrackPage from './page/track/TrackPage'
 
 const Authorization = lazy(() => import('./page/authorization/Authorization'))
 const Search = lazy(() => import('./page/search/Search'))
@@ -33,7 +34,7 @@ export const routeIsAuth = [
     },
     {
         path: `/${TRACK_ROUTE}/:trackId`,
-        Element: ''
+        Element: TrackPage
     },
 ]
 

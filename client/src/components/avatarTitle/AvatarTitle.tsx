@@ -5,9 +5,9 @@ import { PROFILE_ROUTE, SERVER_API } from '../../constants/constants'
 import styles from './AvatarTitle.module.scss'
 
 interface IAvatarTitleProps {
-    avatar: string
-    name: string
-    nameAuthor: string
+    avatar: string | undefined
+    name: string | undefined
+    nameAuthor: string | undefined
     idAuthor: number | null
     pathToTitle: string,
     type?: 'Альбом' | 'Плейлист'
@@ -23,10 +23,12 @@ const AvatarTitle: React.FunctionComponent<IAvatarTitleProps> = ({
 }) => {
     return (
         <div className={styles['main-infos']}>
-            {avatar
-                ? <img className={styles.avatar__custom} src={`${SERVER_API}/image/${avatar}`} alt='' />
-                : <span className={styles.avatar__default}><RiMusic2Line /></span>
-            }
+            <div className={styles.avatar__div}>
+                {avatar
+                    ? <img className={styles.avatar__custom} src={`${SERVER_API}/image/${avatar}`} alt='' />
+                    : <RiMusic2Line />
+                }
+            </div>
 
             <div className={styles.naming}>
                 <NavLink to={`${pathToTitle}`}

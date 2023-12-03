@@ -7,6 +7,8 @@ declare module '*.css' {
     export default content
 }
 
+declare module 'react-color-extractor'
+
 declare module 'use-sound' {
     import { Howl, Howler } from 'howler';
   

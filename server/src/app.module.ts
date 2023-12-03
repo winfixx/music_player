@@ -9,19 +9,19 @@ import { AuthModule } from './auth/auth.module'
 import { CloudinaryModule } from './cloudinary/cloudinary.module'
 import { FilesModule } from './files/files.module'
 import { GenreModule } from './genre/genre.module'
-import { LibraryController } from './library/library.controller'
 import { LibraryModule } from './library/library.module'
-import { LibraryService } from './library/library.service'
 import { MailModule } from './mail/mail.module'
 import { PlaylistModule } from './playlist/playlist.module'
+import { SearchModule } from './search/search.module'
 import { getSequelizeConfig } from './sequelize.config'
 import { TokenModule } from './token/token.module'
+import { TrackModule } from './track/track.module'
 import { UserModule } from './user/user.module'
 
 @Module({
     imports: [
         ServeStaticModule.forRoot({
-            rootPath: join(__dirname, 'static'),
+            rootPath: join(__dirname, '..', 'static'),
         }),
         ConfigModule.forRoot({
             isGlobal: true,
@@ -41,6 +41,8 @@ import { UserModule } from './user/user.module'
         AlbumModule,
         FilesModule,
         LibraryModule,
+        TrackModule,
+        SearchModule,
     ]
 })
 export class AppModule {

@@ -73,9 +73,7 @@ const Layout: React.FC<LayoutProps> = React.memo(({
 
       <Library />
 
-      <section className={styles.under}>
-        <MusicPlayer />
-      </section>
+      <MusicPlayer />
     </div>
   )
 })
