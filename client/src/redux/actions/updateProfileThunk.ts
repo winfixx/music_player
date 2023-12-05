@@ -3,7 +3,7 @@ import userAxios from '../../api/axios/user.axios'
 
 const updateProfileThunk = createAsyncThunk(
     'users/fetchByIdStatus',
-    async (formData: FormData, thunkAPI) => {
+    async (formData: FormData) => {
         const { data } = await userAxios.updateInfo(formData)
         return data
     }

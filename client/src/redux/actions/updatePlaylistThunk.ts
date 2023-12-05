@@ -3,7 +3,7 @@ import playlistAxios from '../../api/axios/playlist.axios'
 
 const updatePlaylistThunk = createAsyncThunk(
     'users/fetchByIdStatus',
-    async (formData: FormData, thunkAPI) => {
+    async (formData: FormData) => {
         const { data } = await playlistAxios.updateInfo(formData)
         return data
     }

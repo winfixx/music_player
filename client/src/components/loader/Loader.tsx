@@ -1,10 +1,7 @@
 import * as React from 'react'
-import styles from './Loader.module.scss';
+import styles from './Loader.module.scss'
 
-interface ILoaderProps {
-}
-
-const Loader: React.FunctionComponent<ILoaderProps> = (props) => {
+const Loader: React.FunctionComponent = () => {
     return (
         <div className={styles.loader}>
             <span className={styles.spinner}></span>

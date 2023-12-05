@@ -1,17 +1,31 @@
 import * as React from 'react'
 import { ColorExtractor } from 'react-color-extractor'
+import { BsPerson, BsPlusLg } from 'react-icons/bs'
+import { IoMdArrowDropright } from 'react-icons/io'
+import { MdDeleteOutline } from 'react-icons/md'
+import { RiAlbumLine } from 'react-icons/ri'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ErrorResponse } from '../../api/rtk/api'
 import { libraryApi } from '../../api/rtk/library.api'
 import { playlistApi } from '../../api/rtk/playlist.api'
+import AvatarTitle from '../../components/avatarTitle/AvatarTitle'
+import ButtonMenu from '../../components/button/button-menu/ButtonMenu'
+import ButtonShared from '../../components/button/button-shared/ButtonShared'
 import FieldDescriptionTrack from '../../components/fieldDescriptionTrack/FieldDescriptionTrack'
 import FieldSearchTracks from '../../components/fieldSearchTracks/FieldSearchTracks'
 import Heading from '../../components/heading/Heading'
+import ItemTrack from '../../components/list/listTrack/ItemTrack'
 import ListTrackForPlaylist from '../../components/list/listTrack/ListTrackForPlaylist'
+import ListTrackForRecommendations from '../../components/list/listTrack/ListTrackForRecommendations'
+import AlbumName from '../../components/list/listTrack/partsItemTrack/AlbumName'
+import DateAddedTrack from '../../components/list/listTrack/partsItemTrack/DateAddedTrack'
+import IndexTrack from '../../components/list/listTrack/partsItemTrack/IndexTrack'
+import TimeTrack from '../../components/list/listTrack/partsItemTrack/TImeTrack'
+import ContextMenu from '../../components/menu/ContextMenu'
 import ChangeInfoModal from '../../components/modals/changeInfoModal/ChangeInfoModal'
 import NameBlocks from '../../components/nameBLocks/NameBlocks'
 import TrackMenu from '../../components/trackMenu/TrackMenu'
-import { GRID_TEMPLATE_FOR_RECOMMENDATIONS, SERVER_API, TRACK_ROUTE } from '../../constants/constants'
+import { ALBUM_ROUTE, GRID_TEMPLATE_FOR_RECOMMENDATIONS, PROFILE_ROUTE, SERVER_API, TRACK_ROUTE } from '../../constants/constants'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useActionCreators } from '../../hooks/useActionCreators'
 import updatePlaylistThunk from '../../redux/actions/updatePlaylistThunk'
@@ -19,14 +33,10 @@ import { modalAction } from '../../redux/reducers/modalSlice'
 import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
 import { useSetColor } from '../../types/useSetColor'
 import styles from './Playlist.module.scss'
-import ListTrackForRecommendations from '../../components/list/listTrack/ListTrackForRecommendations'
-import AvatarTitle from '../../components/avatarTitle/AvatarTitle'
-import AlbumName from '../../components/list/listTrack/partsItemTrack/AlbumName'
-import ButtonShared from '../../components/button/button-shared/ButtonShared'
-import ItemTrack from '../../components/list/listTrack/ItemTrack'
 
 const Playlist: React.FC = () => {
     const [showModal, setShowModal] = React.useState(false)
+    const [showMenu, setShowMenu] = React.useState<number | null>(null)
     const [infos, setInfos] = React.useState<ChangeInfoHeading>({
         name: '',
         avatar: undefined,
@@ -58,7 +68,7 @@ const Playlist: React.FC = () => {
 
     React.useEffect(() => {
         if (isErrorPlaylist) {
-            actionsModal.onOpenModal(null)
+            actionsModal.onOpenModal()
             actionsModal.addErrorMessage({ message: (errorPlaylist as ErrorResponse)?.data?.message })
         }
     }, [isErrorPlaylist])
@@ -76,7 +86,7 @@ const Playlist: React.FC = () => {
 
     const onSubmitChange = React.useCallback(async () => {
         if (errorChangeInfo) {
-            actionsModal.onOpenModal(null)
+            actionsModal.onOpenModal()
             actionsModal.addErrorMessage({ message: errorChangeInfo })
             return
         }
@@ -95,7 +105,7 @@ const Playlist: React.FC = () => {
                 await updateLibrary(null)
             })
             .catch(e => {
-                actionsModal.onOpenModal(null)
+                actionsModal.onOpenModal()
                 actionsModal.addErrorMessage({ message: (e as ErrorResponse)?.data?.message })
             })
             .finally(onShowModal)
@@ -145,6 +155,7 @@ const Playlist: React.FC = () => {
                 setShowChangeInfoModal={setShowModal}
                 color={color}
                 deleteFrom='медиатеки'
+                isProfile={false}
             />
 
             <div className={styles.content__track}>
@@ -156,7 +167,62 @@ const Playlist: React.FC = () => {
                         userId={user.id}
                         addInLibrary={addTrackInLibrary}
                         deleteTrackFromLibrary={deleteTrackFromLibrary}
-                    />
+                    >
+                        {dataPlaylist?.tracks?.map((track, index) =>
+                            <ItemTrack key={track.id}
+                                style={{ animationDelay: `.${index}s`, }}
+                            >
+                                <IndexTrack index={index} />
+                                <AvatarTitle avatar={track.avatar}
+                                    nameAuthor={track.author?.name}
+                                    name={track.name}
+                                    idAuthor={track.author?.id}
+                                    pathToTitle={`/${TRACK_ROUTE}/${track.id}`}
+                                />
+                                <AlbumName nameAlbumTrack={track.album?.name}
+                                    idAlbum={track?.album?.id}
+                                />
+                                <DateAddedTrack dateAddedTrackInPlaylist={track.PlaylistTrack?.createdAt} />
+                                <TimeTrack time={'time'}
+                                    userId={user.id}
+                                    author={false}
+                                    trackId={track.id}
+                                    haveInPlaylist={track?.playlists ? !!track?.playlists[0]?.name : false}
+                                    showMenu={track.id}
+                                    setShowMenu={setShowMenu}
+                                    addInPlaylist={addTrackInLibrary}
+                                    deleteTrackFromPlaylist={deleteTrackFromLibrary}
+                                >
+                                    {showMenu === track?.id
+                                        ? <ContextMenu style={{ top: -5, right: 30 }}
+                                            setShowMenu={setShowMenu}
+                                        >
+                                            <ButtonMenu icon={<BsPlusLg />}
+                                                onClick={() => { }}
+                                                text='Добавить в плейлист'
+                                                unwrap={<IoMdArrowDropright />}
+                                            />
+                                            <ButtonMenu icon={<BsPerson />}
+                                                onClick={() => navigate(`/${PROFILE_ROUTE}/${track.author.id}`)}
+                                                text='К исполнителю'
+                                            />
+                                            <ButtonMenu icon={<RiAlbumLine />}
+                                                onClick={() => navigate(`/${ALBUM_ROUTE}/${track.album?.id}`)}
+                                                text='К альбому'
+                                            />
+                                            {dataPlaylist?.author.id === user.id
+                                                && < ButtonMenu icon={<MdDeleteOutline />}
+                                                    onClick={() => { }}
+                                                    text='Удалить трек'
+                                                />
+                                            }
+                                        </ContextMenu>
+                                        : <></>
+                                    }
+                                </TimeTrack>
+                            </ItemTrack>
+                        )}
+                    </ListTrackForPlaylist>
                     : <div className={styles.not__found}>
                         <span>Тут пока ничего нет</span>
                     </div>

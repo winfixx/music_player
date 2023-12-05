@@ -1,19 +1,19 @@
 import * as React from 'react'
-import { ErrorResponse, useNavigate, useParams } from 'react-router-dom'
+import { ColorExtractor } from 'react-color-extractor'
+import { ErrorResponse, useParams } from 'react-router-dom'
+import { userApi } from '../../api/rtk/user.api'
 import Heading from '../../components/heading/Heading'
 import ChangeInfoModal from '../../components/modals/changeInfoModal/ChangeInfoModal'
 import TrackMenu from '../../components/trackMenu/TrackMenu'
+import { SERVER_API } from '../../constants/constants'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useActionCreators } from '../../hooks/useActionCreators'
-import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
-import { modalAction } from '../../redux/reducers/modalSlice'
-import { userApi } from '../../api/rtk/user.api'
 import updateProfileThunk from '../../redux/actions/updateProfileThunk'
+import { modalAction } from '../../redux/reducers/modalSlice'
+import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
+import { useSetColor } from '../../types/useSetColor'
 
-interface IProfileProps {
-}
-
-const Profile: React.FunctionComponent<IProfileProps> = (props) => {
+const Profile: React.FunctionComponent = () => {
     const { userId } = useParams()
     const [showModal, setShowModal] = React.useState(false)
     const [infos, setInfos] = React.useState<ChangeInfoHeading>({
@@ -24,9 +24,10 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
     const [errorChangeInfo, setErrorChangeInfo] = React.useState('')
     const { user } = useAppSelector(state => state.userReducer)
     const actionsModal = useActionCreators(modalAction)
-    const { data: dataProfile, refetch: refetchProfile, error: errorProfile, isError: isErrorProfile } = userApi.useGetOneProfileQuery({ userId: user.id })
+    const { data: dataProfile, refetch: refetchProfile, error: errorProfile, isError: isErrorProfile } = userApi.useGetOneProfileQuery({ userId })
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const { color, onSetColor } = useSetColor(dataProfile?.avatar)
 
     const onShowModal = React.useCallback(() => {
         if (user.id === dataProfile?.author.id) {
@@ -37,14 +38,10 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
 
     React.useEffect(() => {
         if (isErrorProfile) {
-            actionsModal.onOpenModal(null)
+            actionsModal.onOpenModal()
             actionsModal.addErrorMessage({ message: (errorProfile as ErrorResponse)?.data?.message })
         }
     }, [isErrorProfile])
-
-    React.useEffect(() => {
-        if (isSuccessDeleteTrack) navigate('/')
-    }, [isSuccessDeleteTrack])
 
     React.useEffect(() => {
         if (dataProfile?.name) setInfos({ ...infos, name: dataProfile.name })
@@ -52,7 +49,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
 
     const onSubmitChange = React.useCallback(async () => {
         if (errorChangeInfo) {
-            actionsModal.onOpenModal(null)
+            actionsModal.onOpenModal()
             actionsModal.addErrorMessage({ message: errorChangeInfo })
             return
         }
@@ -69,7 +66,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 await refetchProfile()
             })
             .catch(e => {
-                actionsModal.onOpenModal(null)
+                actionsModal.onOpenModal()
                 actionsModal.addErrorMessage({ message: (e as ErrorResponse)?.data?.message })
             })
             .finally(onShowModal)
@@ -78,6 +75,11 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
 
     return (
         <>
+            <ColorExtractor
+                rgb
+                src={`${SERVER_API}/image/${dataProfile?.avatar}`}
+                getColors={onSetColor}
+            />
             {showModal
                 && <ChangeInfoModal onClickClear={onShowModal}
                     onClickButton={onSubmitChange}
@@ -89,7 +91,7 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 />
             }
 
-            <Heading heading={'Трек'}
+            <Heading heading={'Профиль'}
                 authorName={dataProfile?.author.name}
                 avatar={dataProfile?.avatar}
                 name={dataProfile?.name}
@@ -108,6 +110,9 @@ const Profile: React.FunctionComponent<IProfileProps> = (props) => {
                 showChangeInfoModal={showModal}
                 setShowChangeInfoModal={setShowModal}
                 deleteFrom='Любимые треки'
+                isProfile
+                color={color}
+
             />
 
         </>

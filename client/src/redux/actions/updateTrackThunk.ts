@@ -3,7 +3,7 @@ import trackAxios from '../../api/axios/track.axios'
 
 const updateTrackThunk = createAsyncThunk(
     'users/fetchByIdStatus',
-    async (formData: FormData, thunkAPI) => {
+    async (formData: FormData) => {
         const { data } = await trackAxios.updateInfo(formData)
         return data
     }

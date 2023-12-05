@@ -7,6 +7,7 @@ import { RiMusic2Line } from 'react-icons/ri'
 import { SERVER_API } from '../../constants/constants'
 import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
 import ButtonMenu from '../button/button-menu/ButtonMenu'
+import ImageAvatar from '../img/ImageAvatar'
 import ContextMenu from '../menu/ContextMenu'
 import styles from './Avatar.module.scss'
 
@@ -51,10 +52,18 @@ const Avatar: React.FunctionComponent<IAvatarProps> = React.memo(({
             <div className={styles.img}>
                 {avatar
                     ? infos?.avatar
-                        ? <img onLoad={onImgLoad} src={avatarPreview} alt="" />
-                        : <img id='canvas' src={`${SERVER_API}/image/${avatar}`} alt="" />
+                        ? <ImageAvatar src={avatarPreview}
+                            onLoad={onImgLoad}
+                            borderRadius='2px'
+                        />
+                        : <ImageAvatar src={`${SERVER_API}/image/${avatar}`}
+                            borderRadius='2px'
+                        />
                     : infos?.avatar
-                        ? <img onLoad={onImgLoad} src={avatarPreview} alt="" />
+                        ? <ImageAvatar src={avatarPreview}
+                            onLoad={onImgLoad}
+                            borderRadius='2px'
+                        />
                         : <RiMusic2Line />
                 }
             </div>

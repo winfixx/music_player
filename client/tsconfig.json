@@ -10,7 +10,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "paths": {
-      "use-sound": ["./declaration.d.ts"]
+      "use-sound": ["./declaration.d.ts"],
+      "react-color-extractor": ["./declaration.d.ts"],
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

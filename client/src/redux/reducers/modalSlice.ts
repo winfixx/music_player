@@ -26,11 +26,11 @@ const modalSlice = createSlice({
     name: 'modal',
     initialState,
     reducers: {
-        onOpenModal: (state, action) => {
+        onOpenModal: (state) => {
             state.isOpen = true
             state.approval = false
         },
-        onCloseModal: (state, action) => {
+        onCloseModal: (state) => {
             state.isOpen = false
             state.isError = false
             state.approval = true

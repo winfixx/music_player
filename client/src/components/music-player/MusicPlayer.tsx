@@ -1,15 +1,14 @@
 import * as React from 'react'
-import AvatarTitle from '../avatarTitle/AvatarTitle'
 import styles from './MusicPlayer.module.scss'
 
 interface IMusicPlayerProps {
 }
 
-const MusicPlayer: React.FC<IMusicPlayerProps> = (props) => {
+const MusicPlayer: React.FC<IMusicPlayerProps> = () => {
   return (
     <section className={styles.under}>
       
-      <AvatarTitle />
+      {/* <AvatarTitle /> */}
     </section>
   )
 }

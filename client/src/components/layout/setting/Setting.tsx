@@ -16,7 +16,7 @@ import Modal from '../../modals/defaultModal/Modal'
 import styles from './setting.module.scss'
 
 const Setting: React.FC = React.memo(() => {
-    const [showMenu, setShowMenu] = React.useState(false)
+    const [showMenu, setShowMenu] = React.useState<number | null>(null)
     const [showModalError, setShowModalError] = React.useState(false)
     const navigate = useNavigate()
 
@@ -37,7 +37,7 @@ const Setting: React.FC = React.memo(() => {
     const onCreatePlaylist = async () => {
         try {
             await createPlaylist(userId)
-                .finally(() => setShowMenu(!showMenu))
+                .finally(() => setShowMenu(null))
         } catch (error) {
             console.log(error)
         }
@@ -46,7 +46,7 @@ const Setting: React.FC = React.memo(() => {
     const onCreateAlbum = async () => {
         try {
             await createAlbum(userId)
-                .finally(() => setShowMenu(!showMenu))
+                .finally(() => setShowMenu(null))
         } catch (error) {
             console.log(error)
         }
@@ -74,13 +74,12 @@ const Setting: React.FC = React.memo(() => {
                     </div>
 
                     <div className={styles.button}>
-                        <span onClick={() => setShowMenu(!showMenu)}>{<BsPlusLg />}</span>
+                        <span onClick={() => setShowMenu(1)}>{<BsPlusLg />}</span>
                         <span>{<GoArrowRight />}</span>
 
-                        {showMenu
+                        {!!showMenu
                             && <ContextMenu style={{ top: 30, right: 0 }}
                                 setShowMenu={setShowMenu}
-                                showMenu={showMenu}
                             >
                                 <ButtonMenu onClick={onCreatePlaylist}
                                     text='Создать плейлист'

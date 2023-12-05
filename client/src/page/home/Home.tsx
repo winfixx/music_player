@@ -1,7 +1,5 @@
 import * as React from 'react'
 import styles from './Home.module.scss'
-import Navbar from '../../components/navbar/Navbar'
-import useScroll from '../../hooks/useScroll'
 
 const div = [
     { id: 1, page: 'page' },
@@ -26,7 +24,7 @@ const div = [
     { id: 128, page: 'page' },
 ]
 
-const Home: React.FC = (props) => {
+const Home: React.FC = () => {
 
     return (
         <div className={styles.container}>

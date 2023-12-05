@@ -46,8 +46,8 @@ const Layout: React.FC<LayoutProps> = React.memo(({
     <div className={styles.container}>
       {isOpen
         && <Modal error={isError}
-          onClickButton={() => actionsModal.onCloseModal(null)}
-          onClickClear={() => actionsModal.onCloseModal(null)}
+          onClickButton={() => actionsModal.onCloseModal()}
+          onClickClear={() => actionsModal.onCloseModal()}
           textButton={textButton}
           titleModal={titleModal}
           typeButton={typeButton}

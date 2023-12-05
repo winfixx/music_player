@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { PROFILE_ROUTE } from '../../constants/constants'
 import Avatar from '../avatar/Avatar'
 import styles from './Heading.module.scss'
-import { PROFILE_ROUTE } from '../../constants/constants'
 
 interface HeadingProps {
     heading: string
@@ -35,6 +35,9 @@ const Heading: React.FunctionComponent<HeadingProps> = ({
 }) => {
     const navigate = useNavigate()
 
+    // для сборки
+    console.log(countAlbum, countPlaylist)
+
     return (
         <div className={styles.under}>
             <div className={styles.background}
@@ -53,7 +56,9 @@ const Heading: React.FunctionComponent<HeadingProps> = ({
                 <span onClick={onShowModal} className={styles.title}>{name}</span>
                 <div className={styles['extra__info']}>
                     {authorName
-                        && <span onClick={() => navigate(`/${PROFILE_ROUTE}/${authorId}`)}><NavLink to={''}>{authorName}</NavLink></span>
+                        && <span onClick={() => navigate(`/${PROFILE_ROUTE}/${authorId}`)}>
+                            <NavLink to={''}>{authorName}</NavLink>
+                        </span>
                     }
                     {createdAt
                         && <>

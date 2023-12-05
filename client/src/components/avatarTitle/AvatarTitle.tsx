@@ -2,6 +2,7 @@ import * as React from 'react'
 import { RiMusic2Line } from 'react-icons/ri'
 import { NavLink } from 'react-router-dom'
 import { PROFILE_ROUTE, SERVER_API } from '../../constants/constants'
+import ImageAvatar from '../img/ImageAvatar'
 import styles from './AvatarTitle.module.scss'
 
 interface IAvatarTitleProps {
@@ -25,7 +26,11 @@ const AvatarTitle: React.FunctionComponent<IAvatarTitleProps> = ({
         <div className={styles['main-infos']}>
             <div className={styles.avatar__div}>
                 {avatar
-                    ? <img className={styles.avatar__custom} src={`${SERVER_API}/image/${avatar}`} alt='' />
+                    ? <ImageAvatar borderRadius='2px'
+                        sizeHight='100%'
+                        sizeWidth='100%'
+                        src={`${SERVER_API}/image/${avatar}`}
+                    />
                     : <RiMusic2Line />
                 }
             </div>

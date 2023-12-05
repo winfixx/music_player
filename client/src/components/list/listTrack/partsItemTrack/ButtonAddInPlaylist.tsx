@@ -4,7 +4,7 @@ import ButtonShared from '../../../button/button-shared/ButtonShared'
 interface IButtonAddInPlaylistProps {
 }
 
-const ButtonAddInPlaylist: React.FunctionComponent<IButtonAddInPlaylistProps> = (props) => {
+const ButtonAddInPlaylist: React.FunctionComponent<IButtonAddInPlaylistProps> = () => {
     return (
         <ButtonShared type='submit'
             onClickButton={() => { }}

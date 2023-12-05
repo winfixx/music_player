@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { RiSearch2Line, RiSearch2Fill } from 'react-icons/ri'
 import { GoHome, GoHomeFill } from 'react-icons/go'
+import { RiSearch2Fill, RiSearch2Line } from 'react-icons/ri'
 import { NavLink } from 'react-router-dom'
-import styles from './navigation.module.scss'
 import { useLocationPath } from '../../../hooks/useLocationPath'
+import styles from './navigation.module.scss'
 
-const Navigation: React.FC = React.memo((props) => {
+const Navigation: React.FC = React.memo(() => {
     const searchPath = useLocationPath('/search')
     const homePath = useLocationPath('/')
 

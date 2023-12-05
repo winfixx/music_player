@@ -1,25 +1,21 @@
 import * as React from 'react'
-import { ErrorResponse, useNavigate, useParams } from 'react-router-dom'
 import { ColorExtractor } from 'react-color-extractor'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { trackApi } from '../../api/rtk/track.api'
-import ChangeInfoModal from '../../components/modals/changeInfoModal/ChangeInfoModal'
-import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
-import { useActionCreators } from '../../hooks/useActionCreators'
-import { modalAction } from '../../redux/reducers/modalSlice'
-import updateTrackThunk from '../../redux/actions/updateTrackThunk'
-import Heading from '../../components/heading/Heading'
-import { useSetColor } from '../../types/useSetColor'
-import { SERVER_API } from '../../constants/constants'
-import TrackMenu from '../../components/trackMenu/TrackMenu'
+import { ErrorResponse, useNavigate, useParams } from 'react-router-dom'
 import { playlistApi } from '../../api/rtk/playlist.api'
-import AvatarTitle from '../../components/avatarTitle/AvatarTitle'
+import { trackApi } from '../../api/rtk/track.api'
+import Heading from '../../components/heading/Heading'
 import ListTrackForRecommendations from '../../components/list/listTrack/ListTrackForRecommendations'
+import ChangeInfoModal from '../../components/modals/changeInfoModal/ChangeInfoModal'
+import TrackMenu from '../../components/trackMenu/TrackMenu'
+import { SERVER_API } from '../../constants/constants'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useActionCreators } from '../../hooks/useActionCreators'
+import updateTrackThunk from '../../redux/actions/updateTrackThunk'
+import { modalAction } from '../../redux/reducers/modalSlice'
+import { ChangeInfoHeading } from '../../types/ChangeInfoHeading.type'
+import { useSetColor } from '../../types/useSetColor'
 
-interface ITrackPageProps {
-}
-
-const TrackPage: React.FunctionComponent<ITrackPageProps> = (props) => {
+const TrackPage: React.FunctionComponent = () => {
     const { trackId } = useParams()
     const [showModal, setShowModal] = React.useState(false)
     const [infos, setInfos] = React.useState<ChangeInfoHeading>({
@@ -47,7 +43,7 @@ const TrackPage: React.FunctionComponent<ITrackPageProps> = (props) => {
 
     React.useEffect(() => {
         if (isErrorTrack) {
-            actionsModal.onOpenModal(null)
+            actionsModal.onOpenModal()
             actionsModal.addErrorMessage({ message: (errorTrack as ErrorResponse)?.data?.message })
         }
     }, [isErrorTrack])
@@ -62,7 +58,7 @@ const TrackPage: React.FunctionComponent<ITrackPageProps> = (props) => {
 
     const onSubmitChange = React.useCallback(async () => {
         if (errorChangeInfo) {
-            actionsModal.onOpenModal(null)
+            actionsModal.onOpenModal()
             actionsModal.addErrorMessage({ message: errorChangeInfo })
             return
         }
@@ -80,7 +76,7 @@ const TrackPage: React.FunctionComponent<ITrackPageProps> = (props) => {
                 await refetchTrack()
             })
             .catch(e => {
-                actionsModal.onOpenModal(null)
+                actionsModal.onOpenModal()
                 actionsModal.addErrorMessage({ message: (e as ErrorResponse)?.data?.message })
             })
             .finally(onShowModal)
@@ -130,10 +126,11 @@ const TrackPage: React.FunctionComponent<ITrackPageProps> = (props) => {
                 setShowChangeInfoModal={setShowModal}
                 color={color}
                 deleteFrom='Любимые треки'
+                isProfile={false}
             />
 
             <ListTrackForRecommendations>
-                
+
             </ListTrackForRecommendations>
 
         </>

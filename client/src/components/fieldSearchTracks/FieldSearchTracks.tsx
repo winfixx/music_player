@@ -2,7 +2,6 @@ import * as React from 'react'
 import { MdClear } from 'react-icons/md'
 import SearchInput from '../input/search-input/SearchInput'
 import styles from './FieldSearchTracks.module.scss'
-import { Link } from 'react-router-dom'
 
 interface FieldSearchTracksProps {
     handleSearch: (searchData: string) => void

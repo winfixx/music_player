@@ -3,7 +3,7 @@ import albumAxios from '../../api/axios/album.axios'
 
 const updateAlbumThunk = createAsyncThunk(
     'users/fetchByIdStatus',
-    async (formData: FormData, thunkAPI) => {
+    async (formData: FormData) => {
         const { data } = await albumAxios.updateInfo(formData)
         return data
     }

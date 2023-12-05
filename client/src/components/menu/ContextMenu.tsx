@@ -5,19 +5,17 @@ import styles from './ContextMenu.module.scss'
 interface ContextMenuProps {
     children: React.ReactNode
     style?: React.CSSProperties
-    setShowMenu?: (showMenu: boolean) => void
-    showMenu?: boolean
+    setShowMenu?: (showMenu: number | null) => void
 }
 
 const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
     children,
     style,
-    showMenu,
     setShowMenu
 }) => {
     const ref = React.useRef<HTMLDivElement>(null)
 
-    if (setShowMenu) useClickOutside(ref, () => setShowMenu(!showMenu))
+    if (setShowMenu) useClickOutside(ref, () => setShowMenu(null))
 
     return (
         <div ref={ref}

@@ -21,6 +21,7 @@ interface ITrackMenuProps {
     type: 'плейлист' | 'альбом' | 'трек'
     deleteFrom: 'Любимые треки' | 'медиатеки'
     color?: [f: string, s: string, t: string]
+    isProfile: boolean
     setShowChangeInfoModal: (args: boolean) => void
     addInLibrary?: (args: PickIdsPlaylistArgs) => Promise<unknown> | void
     deleteFromLibrary?: (args: PickIdsPlaylistArgs) => Promise<unknown> | void
@@ -37,30 +38,31 @@ const TrackMenu: React.FunctionComponent<ITrackMenuProps> = React.memo(({
     type,
     color,
     deleteFrom,
+    isProfile,
     setShowChangeInfoModal,
     addInLibrary,
     deleteFromLibrary,
     deleteFromAll,
 }) => {
-    const [showMenu, setShowMenu] = React.useState(false)
+    const [showMenu, setShowMenu] = React.useState<number | null>(null)
     const [showModal, setShowModal] = React.useState(false)
 
     const onDeleteFromAll = () => {
         setShowModal(!showModal)
-        setShowMenu(!showMenu)
+        setShowMenu(null)
     }
     const onDeleteFromLibrary = async () => {
-        setShowMenu(!showMenu)
+        setShowMenu(null)
         if (deleteFromLibrary) await deleteFromLibrary({ userId, playlistId })
 
     }
     const onAddFromLibrary = async () => {
-        setShowMenu(!showMenu)
+        setShowMenu(null)
         if (addInLibrary) await addInLibrary({ userId, playlistId })
     }
     const onChangeInfo = () => {
         setShowChangeInfoModal(!showChangeInfoModal)
-        setShowMenu(!showMenu)
+        setShowMenu(null)
     }
 
     return (
@@ -96,22 +98,23 @@ const TrackMenu: React.FunctionComponent<ITrackMenuProps> = React.memo(({
 
                     <div className={styles.setting}>
                         <ThreeDots style={{ width: 30, height: 25 }}
-                            onClick={() => setShowMenu(!showMenu)}
+                            onClick={() => setShowMenu(1)}
                         />
-                        {showMenu
-                            && <ContextMenu style={{ top: 0, right: 30 }}
+                        {!!showMenu
+                            && <ContextMenu style={{ top: -5, right: 35 }}
                                 setShowMenu={setShowMenu}
-                                showMenu={showMenu}
                             >
-                                {haveInLibrary
-                                    ? <ButtonMenu icon={<MdDeleteSweep />}
-                                        onClick={onDeleteFromLibrary}
-                                        text={`Удалить из ${deleteFrom}`}
-                                    />
-                                    : <ButtonMenu icon={<MdOutlineLibraryAdd />}
-                                        onClick={onAddFromLibrary}
-                                        text={`Добавить в ${deleteFrom}`}
-                                    />
+                                {isProfile
+                                    ? <></>
+                                    : haveInLibrary
+                                        ? <ButtonMenu icon={<MdDeleteSweep />}
+                                            onClick={onDeleteFromLibrary}
+                                            text={`Удалить из ${deleteFrom}`}
+                                        />
+                                        : <ButtonMenu icon={<MdOutlineLibraryAdd />}
+                                            onClick={onAddFromLibrary}
+                                            text={`Добавить в ${deleteFrom}`}
+                                        />
                                 }
                                 {authorId === userId
                                     && <>

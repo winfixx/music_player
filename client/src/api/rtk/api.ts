@@ -49,6 +49,12 @@ const baseQueryWithReAuth: BaseQueryFn<
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReAuth,
-    endpoints: build => ({}),
+    endpoints: (build) => ({
+        query: build.query({
+            query: () => ({
+                url: ''
+            })
+        })
+    }),
     tagTypes: ['User', 'PlaylistUpdate', 'AlbumUpdate', 'Library', 'Track']
 })

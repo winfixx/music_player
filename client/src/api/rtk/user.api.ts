@@ -1,4 +1,4 @@
-import { LOGIN_ROUTE, REFRESH_ROUTE, REGISTRATION_ROUTE } from '../../constants/constants'
+import { AUTH_ROUTE, LOGIN_ROUTE, REFRESH_ROUTE, REGISTRATION_ROUTE, USER_ROUTE } from '../../constants/constants'
 import { UserForm } from '../../page/authorization/Authorization'
 import { User } from '../../types/User.type'
 import { api } from './api'
@@ -7,7 +7,7 @@ export const userApi = api.injectEndpoints({
     endpoints: build => ({
         registration: build.mutation<User, UserForm>({
             query: (user) => ({
-                url: `/auth/${REGISTRATION_ROUTE}`,
+                url: `/${AUTH_ROUTE}/${REGISTRATION_ROUTE}`,
                 method: 'POST',
                 body: {
                     ...user
@@ -16,7 +16,7 @@ export const userApi = api.injectEndpoints({
         }),
         login: build.mutation<User, UserForm>({
             query: (user) => ({
-                url: `/auth/${LOGIN_ROUTE}`,
+                url: `/${AUTH_ROUTE}/${LOGIN_ROUTE}`,
                 method: 'POST',
                 body: {
                     ...user
@@ -25,16 +25,23 @@ export const userApi = api.injectEndpoints({
         }),
         checkAuth: build.query<User, null>({
             query: () => ({
-                url: `/auth/${REFRESH_ROUTE}`,
+                url: `/${AUTH_ROUTE}/${REFRESH_ROUTE}`,
                 method: 'GET',
             }),
             providesTags: ['User']
         }),
-        getOneProfile: build.query<any, { userId: string }>({
+        getOneProfile: build.query<any, { userId: string | undefined }>({
             query: ({ userId }) => ({
-                url: `/user/${userId}`,
+                url: `/${USER_ROUTE}/${userId}`,
                 method: 'GET',
             })
+        }),
+        deleteAccount: build.mutation({
+            query: ({userIdSender}) => ({
+                url: `delete-account?userIdSender=${userIdSender}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['User']
         })
     })
 })
