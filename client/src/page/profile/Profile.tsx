@@ -25,16 +25,17 @@ const Profile: React.FunctionComponent = () => {
     const { user } = useAppSelector(state => state.userReducer)
     const actionsModal = useActionCreators(modalAction)
     const { data: dataProfile, refetch: refetchProfile, error: errorProfile, isError: isErrorProfile } = userApi.useGetOneProfileQuery({ userId })
+    const [updateInfo] = userApi.useUpdateInfoMutation()
     const dispatch = useAppDispatch()
     // const navigate = useNavigate()
     const { color, onSetColor } = useSetColor(dataProfile?.avatar)
 
     const onShowModal = React.useCallback(() => {
-        if (user.id === dataProfile?.author.id) {
+        if (user.id === dataProfile?.id) {
             return setShowModal(!showModal)
         }
         return
-    }, [showModal, user.id, dataProfile?.author.id])
+    }, [showModal, user.id, dataProfile])
 
     React.useEffect(() => {
         if (isErrorProfile) {
@@ -64,6 +65,7 @@ const Profile: React.FunctionComponent = () => {
             .unwrap()
             .then(async () => {
                 await refetchProfile()
+                await updateInfo(null)
             })
             .catch(e => {
                 actionsModal.onOpenModal()
@@ -92,27 +94,29 @@ const Profile: React.FunctionComponent = () => {
             }
 
             <Heading heading={'Профиль'}
-                authorName={dataProfile?.author.name}
                 avatar={dataProfile?.avatar}
                 name={dataProfile?.name}
-                createdAt={dataProfile?.createdAt?.split('T')[0].split('-')[0]}
-                authorId={dataProfile?.author.id}
                 userId={user.id}
                 onShowModal={onShowModal}
+                authorId={dataProfile?.id}
+                color={color}
+                countPlaylist={dataProfile?.playlists.length}
+                countAlbum={dataProfile?.albums.length}
+                countTrack={dataProfile?.tracks.length}
+                isProfile
             />
 
             <TrackMenu haveInLibrary={dataProfile?.playlists ? !!dataProfile?.playlists[0]?.id : false}
-                author={dataProfile?.author.id === user.id}
+                author={dataProfile?.id === user.id}
                 userId={user.id}
-                type='трек'
-                authorId={dataProfile?.author?.id}
+                type='профиль'
+                authorId={dataProfile?.id}
                 playlistId={dataProfile?.id}
                 showChangeInfoModal={showModal}
                 setShowChangeInfoModal={setShowModal}
-                deleteFrom='Любимые треки'
                 isProfile
                 color={color}
-
+                
             />
 
         </>

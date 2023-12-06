@@ -8,6 +8,7 @@ export interface Track {
     avatar: string
     createdAt: string
     album?: Album
+    time: string
     PlaylistTrack?: {
         createdAt: string
     }

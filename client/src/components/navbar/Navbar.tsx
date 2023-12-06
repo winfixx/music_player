@@ -2,9 +2,10 @@ import * as React from 'react'
 import { BsPerson } from 'react-icons/bs'
 import { IoIosArrowBack, IoIosArrowForward, IoMdNotificationsOutline } from 'react-icons/io'
 import { NavLink } from 'react-router-dom'
-import { LOGIN_ROUTE } from '../../constants/constants'
+import { LOGIN_ROUTE, SERVER_API } from '../../constants/constants'
 import { useAppSelector } from '../../hooks/redux'
 import { useLocationPath } from '../../hooks/useLocationPath'
+import ImageAvatar from '../img/ImageAvatar'
 import SearchInput from '../input/search-input/SearchInput'
 import styles from './Navbar.module.scss'
 
@@ -48,7 +49,6 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
                     </div>
                 }
 
-
                 <div className={styles.menu}>
                     <NavLink to=''>{<IoMdNotificationsOutline />}</NavLink>
                     <NavLink className={isAuth ? styles.person : ''}
@@ -57,7 +57,11 @@ const Navbar: React.FC<NavbarProps> = ({ opacity }) => {
                         {isAuth
                             && <span className={styles.name}>{user.name}</span>
                         }
-                        {user.avatar ? '' : <BsPerson />}
+                        {user.avatar ? <ImageAvatar src={`${SERVER_API}/image/${user.avatar}`}
+                            borderRadius='50%'
+                            sizeHight='22px'
+                            sizeWidth='22px'
+                        /> : <BsPerson />}
                     </NavLink>
                 </div>
             </div>

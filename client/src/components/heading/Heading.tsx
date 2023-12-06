@@ -8,14 +8,15 @@ interface HeadingProps {
     heading: string
     avatar: string | undefined
     name: string | undefined
-    authorName: string | undefined
-    createdAt: string | undefined | null
+    authorName?: string | undefined
+    createdAt?: string | undefined | null
     countTrack?: number | undefined
     countPlaylist?: number | undefined
     countAlbum?: number | undefined
     userId: number | undefined | null
     authorId: number | undefined | null
     color?: [f: string, s: string, t: string]
+    isProfile: boolean
     onShowModal: () => void
 }
 
@@ -31,6 +32,7 @@ const Heading: React.FunctionComponent<HeadingProps> = ({
     authorId,
     userId,
     color,
+    isProfile,
     onShowModal
 }) => {
     const navigate = useNavigate()
@@ -65,6 +67,22 @@ const Heading: React.FunctionComponent<HeadingProps> = ({
                             <span> &#9679;</span>
                             <span>{createdAt}</span>
                         </>
+                    }
+                    {isProfile
+                        ? <>
+                            {countPlaylist !== undefined && countPlaylist > 0
+                                && <>
+                                    <span>{countPlaylist} открытых плейлиста</span>
+                                </>
+                            }
+                            {countAlbum !== undefined && countAlbum > 0
+                                && <>
+                                    <span> &#9679;</span>
+                                    <span>{countAlbum} альбома</span>
+                                </>
+                            }
+                        </>
+                        : <></>
                     }
                     {countTrack !== undefined && countTrack > 0
                         && <>

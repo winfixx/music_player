@@ -127,6 +127,7 @@ const Album: React.FunctionComponent = () => {
                 userId={user.id}
                 onShowModal={onShowModal}
                 color={color}
+                isProfile={false}
             />
 
             <TrackMenu haveInLibrary={dataAlbum?.usersLibrary ? dataAlbum?.usersLibrary[0]?.id === user.id : false}

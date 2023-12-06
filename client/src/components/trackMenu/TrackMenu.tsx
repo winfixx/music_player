@@ -18,8 +18,8 @@ interface ITrackMenuProps {
     authorId: number | null | undefined
     playlistId?: number | undefined | null
     showChangeInfoModal: boolean
-    type: 'плейлист' | 'альбом' | 'трек'
-    deleteFrom: 'Любимые треки' | 'медиатеки'
+    type: 'плейлист' | 'альбом' | 'трек' | 'профиль'
+    deleteFrom?: 'Любимые треки' | 'медиатеки'
     color?: [f: string, s: string, t: string]
     isProfile: boolean
     setShowChangeInfoModal: (args: boolean) => void
@@ -54,8 +54,8 @@ const TrackMenu: React.FunctionComponent<ITrackMenuProps> = React.memo(({
     const onDeleteFromLibrary = async () => {
         setShowMenu(null)
         if (deleteFromLibrary) await deleteFromLibrary({ userId, playlistId })
-
     }
+
     const onAddFromLibrary = async () => {
         setShowMenu(null)
         if (addInLibrary) await addInLibrary({ userId, playlistId })
@@ -87,14 +87,16 @@ const TrackMenu: React.FunctionComponent<ITrackMenuProps> = React.memo(({
                         <FaPlay fill={'#000'} />
                     </ButtonShared>
 
-                    <FavouriteButton author={author}
-                        haveInLibrary={haveInLibrary}
-                        onClickAdd={addInLibrary}
-                        onClickDelete={deleteFromLibrary}
-                        style={{ width: 30, height: 30 }}
-                        userId={userId}
-                        playlistId={playlistId}
-                    />
+                    {!isProfile
+                        && <FavouriteButton author={author}
+                            haveInLibrary={haveInLibrary}
+                            onClickAdd={addInLibrary}
+                            onClickDelete={deleteFromLibrary}
+                            style={{ width: 30, height: 30 }}
+                            userId={userId}
+                            playlistId={playlistId}
+                        />
+                    }
 
                     <div className={styles.setting}>
                         <ThreeDots style={{ width: 30, height: 25 }}

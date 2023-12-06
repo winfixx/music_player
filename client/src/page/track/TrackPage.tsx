@@ -111,6 +111,7 @@ const TrackPage: React.FunctionComponent = () => {
                 userId={user.id}
                 color={color}
                 onShowModal={onShowModal}
+                isProfile={false}
             />
 
             <TrackMenu haveInLibrary={dataTrack?.playlists ? !!dataTrack?.playlists[0]?.id : false}

@@ -140,6 +140,7 @@ const Playlist: React.FC = () => {
                 userId={user.id}
                 color={color}
                 onShowModal={onShowModal}
+                isProfile={false}
             />
 
             <TrackMenu haveInLibrary={dataPlaylist?.usersPlaylist ? dataPlaylist?.usersPlaylist[0]?.id === user.id : false}
